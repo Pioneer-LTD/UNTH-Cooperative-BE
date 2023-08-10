@@ -1,0 +1,31 @@
+{
+  "name": "unth-cooperative-be",
+  "version": "1.0.0",
+  "description": "This repository contains the backend functionalities of a Cooperative Asset Management Software. The software efficiently collects stipends from Cooperative members' salaries (UNTH Staff), calculated their income with added interest monthly, and facilitated strategic loans spread over extended payment periods for trusted members.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js",
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pioneer-LTD/UNTH-Cooperative-BE.git"
+  },
+  "keywords": [
+    "cooperative"
+  ],
+  "author": "Okafor Ifeanyi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Pioneer-LTD/UNTH-Cooperative-BE/issues"
+  },
+  "homepage": "https://github.com/Pioneer-LTD/UNTH-Cooperative-BE#readme",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-form-data": "^2.0.22",
+    "mongoose": "^7.4.2",
+    "nodemon": "^3.0.1"
+  }
+}
