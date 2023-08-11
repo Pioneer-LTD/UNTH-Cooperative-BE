@@ -65,6 +65,11 @@ module.exports = {
                     REJECTED: "Withdrawal has been rejected"
                 }
             },
+        },
+        TOKEN : {
+            EXPIRED: "Expired token, Unauthorized User",
+            UNAUTHORIZED: "User not Found, Unauthorized user",
+            NOTFOUND: "Authentication token missing"
         }
     }
 }
