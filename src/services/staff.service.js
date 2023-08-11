@@ -3,28 +3,25 @@ const { MESSAGES } = require('../configs/constants.config');
 //Create a Staff
 exports.CreateStaff = async (input) => {
         const { fullname } = input;
-      
         const staff = await Staff.findOne({ fullname });
-      
         if (staff) {
           throw new MESSAGES.USER.DUPLICATE_EMAIL;
         }
-      
         return await Staff.create(input);
  };
 
  //login Staff
  exports.Login = async (input) => {
     const { fullname, password } = input;
-  
-    const Staff = await Staff.findOne({ fullname });
-    if (!Staff) throw new MESSAGES.USER.INVALID_EMAIL_ERROR;
-
-    const isMatch = await Staff.matchPassword(password)
-    if (!isMatch) {
-      throw new HttpException(409, 'Invalid Password');
+    const user = await Staff.findOne({ fullname });
+    if(!user) {
+    throw MESSAGES.USER.INVALID_USER_ERROR;
     }
-    return Staff;
+    const isMatch = await user.matchPassword(password)
+    if (!isMatch) {
+      throw MESSAGES.USER.INVALID_PASSWORD_ERROR;
+    }
+    return user;
   };
 
      //Edit a Staff

@@ -4,8 +4,7 @@ const services = require('../services/staff.service');
 //create a Staff
 exports.register = async (req, res, next) => {        
  try {
-    const data = req.body;
-    const newStaff = await services.CreateStaff({ data });    
+    const newStaff = await services.CreateStaff({ ...req.body });    
     res.status(201).json({ success: true, message: 'Staff created Successfully', data: newStaff })
 } catch (error) {
  next(error)
@@ -78,3 +77,6 @@ exports.register = async (req, res, next) => {
   return res.status(200).json({success: true,message: 'Staff Deleted Successfully', data: checkStaff})}
  catch (error) {next(error);}
     }
+
+
+    

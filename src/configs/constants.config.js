@@ -42,8 +42,8 @@ module.exports = {
             INVALID_ID_ERROR: "Id doesn't exist",
             INVALID_USER_ERROR: "User doesn't exist",
             INVALID_OBJID_ERROR: "Id is not a valid objectId",
-            INVALID_EMAIL_ERROR: "Invalid email or password",
-            INVALID_PASSWORD_ERROR: "Invalid email or password",
+            INVALID_EMAIL_ERROR: "Invalid email",
+            INVALID_PASSWORD_ERROR: "Invalid password",
             LOGGEDIN: "Login was successful",
             LOGGEDOUT: "Logout was successful"
         },

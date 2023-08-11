@@ -13,13 +13,13 @@ exports.isAuth = async (req, res, next) => {
         const { decoded, expired } = verifyToken(token);
     
         if (expired) {
-          next(new MESSAGES.TOKEN.EXPIRED);
+          next(MESSAGES.TOKEN.EXPIRED);
         }
 
         const user = await Staff.findById(decoded)
 
         if (!user) {
-         next(new MESSAGES.TOKEN.NOTFOUND);
+         next( MESSAGES.TOKEN.NOTFOUND);
         }
 
         req.user = { _id : decoded?._id};
