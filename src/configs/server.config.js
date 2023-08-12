@@ -1,6 +1,6 @@
 const express = require('express');
 // const errorHandler = require('../middlewares/error.middleware')
-// const router = require('../routes/index.route')
+const router = require('../routes/index.route')
 const formData = require("express-form-data")
 
 function createServer () {
@@ -16,7 +16,7 @@ function createServer () {
     // app.use(require("cors")()) 
 
     // Route link
-    // app.use('/UNTH-coop', router)
+    app.use('/unth-coop', router)
 
     // Error Handler
     // app.use(errorHandler)
