@@ -61,6 +61,26 @@ exports.updateMember = async (req, res) => {
     }    
 }
 
+// Wipe a Member
+exports.deleteMember = async (req, res) => {
+    const ippis = req.params.ippis
+  
+    try {
+        const existingMember = await patientService.findOne({ ippis });
+        if (!existingMember)
+            return res.status(404).json({ message: MESSAGES.USER.INVALID_USER_ERROR });
+    
+        await memberService.delete( _id ); // <= actually deletes the patient from the db
+    
+        return res.status(200).json({
+            success: true,
+            message: "Patient deleted successfully",
+        });
+    } catch (error) {
+      res.status(403).json({ success: false, message: error.message });
+    }
+};
+
 // Fetch a single patient by email
 exports.getMemberByIppis = async (req, res) => {
     const ippis = req.params.ippis;
