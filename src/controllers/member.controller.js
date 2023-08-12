@@ -8,10 +8,10 @@ exports.register = async (req, res) => {
     try {
       // CrossCheck if the email or phone number is existing in the database
       const existingEmail = await memberService.findOne({
-        email: memberInfo.email,
+        email: Info.email,
       });
       const existingNumber = await memberService.findOne({
-        phoneNumber: memberInfo.phoneNumber,
+        phoneNumber: Info.phoneNumber,
       });
   
       // Throw error if email or phone number is already existing
@@ -20,7 +20,7 @@ exports.register = async (req, res) => {
       }
   
         // Create member
-        const memberData = await memberService.createMember({ Info });
+        const memberData = await memberService.createMember({...Info });
 
         // Send Welcoming Email
         // await sendMail(memberInfo.email, memberInfo.firstName, "member")
@@ -36,29 +36,29 @@ exports.register = async (req, res) => {
 
 // Update a user
 exports.updateMember = async (req, res) => {
-    const updateData = req.body
-    
-    try{
-        // Check if selected email is already taken
-        if(updateData.email){
-            const emailAvailable = await memberService.findOne({ email: updateData.email })
+  const updateData = req.body
+  
+  try{
+      // Check if selected email is already taken
+      if(updateData.email){
+          const emailAvailable = await memberService.findOne({ email: updateData.email })
 
-            // throws an error if the username selected is taken
-            if (emailAvailable){ 
-                return res.status(403).json({ success: false, message: MESSAGES.USER.DUPLICATE_EMAIL})
-            }
-        }
-        const updatedData = await memberService.update(req.user, {updateData})
+          // throws an error if the username selected is taken
+          if (emailAvailable){ 
+              return res.status(403).json({ success: false, message: MESSAGES.USER.DUPLICATE_EMAIL})
+          }
+      }
+      const updatedData = await memberService.update(req.user, {updateData})
 
-        return res.status(200).json({ 
-            success: true, 
-            message: MESSAGES.USER.UPDATED, 
-            data: updatedData 
-        })
-    } 
-    catch (error) {
-        return res.status(401).json({ success: false, message: error.message })                       
-    }    
+      return res.status(200).json({ 
+          success: true, 
+          message: MESSAGES.USER.UPDATED, 
+          data: updatedData 
+      })
+  } 
+  catch (error) {
+      return res.status(401).json({ success: false, message: error.message })                       
+  }    
 }
 
 // Wipe a Member
