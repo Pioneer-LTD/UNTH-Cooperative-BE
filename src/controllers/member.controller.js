@@ -90,29 +90,19 @@ exports.deleteMember = async (req, res) => {
 
 // Fetch a single patient by email
 exports.getMemberByIppis = async (req, res) => {
-  
     const ippis = req.params.ippis;
-  
+
     try {
       // Check if the book to delete is the database
-      const existingMember = await memberService.findOne({
-        ippis: ippis,
-      });
-  
-      if (!existingMember) {
-        return res.status(403).json({ 
-            success: false, 
-            message: MESSAGES.USER.INVALID_USER_ERROR 
-        });
-      }
+      const existingMember = await memberService.findMemberByIppis(ippis)
+
       return res.status(201).json({
         success: true,
         message: MESSAGES.USER.FETCHED,
-        her: "bliss",
-        data: existingPatient,
+        data: existingMember
       });
     } catch (error) {
-      res.status(403).json({ success: false, message: error.message });
+      res.status(500).json({ success: false, message: error.message });
     }
 };
 
@@ -123,7 +113,7 @@ exports.getMemberByID= async (req, res) => {
             _id: req.params.id
         });
 
-        res.status(201).json({
+        return res.status(201).json({
             success: true,
             message: MESSAGES.USER.FETCHEDALL,
             data: myProfile
