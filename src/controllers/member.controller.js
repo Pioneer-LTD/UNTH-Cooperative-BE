@@ -7,15 +7,19 @@ exports.register = async (req, res) => {
   
     try {
       // CrossCheck if the email or phone number is existing in the database
+      const existingIppis = await memberService.findOne({
+        ippis: Info.ippis,
+      });
+  
       const existingEmail = await memberService.findOne({
         email: Info.email,
       });
       const existingNumber = await memberService.findOne({
-        phoneNumber: Info.phoneNumber,
+        mobile_phone: Info.mobile_phone,
       });
   
       // Throw error if email or phone number is already existing
-      if (existingEmail || existingNumber) {
+      if (existingIppis || existingEmail || existingNumber) {
         return res.status(400).json({ message: MESSAGES.USER.DUPLICATE_ERROR });
       }
   
@@ -36,9 +40,12 @@ exports.register = async (req, res) => {
 
 // Update a user
 exports.updateMember = async (req, res) => {
+  const ippis = req.params.ippis
   const updateData = req.body
-  
+
   try{
+      const user = await memberService.findMemberByIppis(ippis)
+
       // Check if selected email is already taken
       if(updateData.email){
           const emailAvailable = await memberService.findOne({ email: updateData.email })
@@ -48,7 +55,7 @@ exports.updateMember = async (req, res) => {
               return res.status(403).json({ success: false, message: MESSAGES.USER.DUPLICATE_EMAIL})
           }
       }
-      const updatedData = await memberService.update(req.user, {updateData})
+    const updatedData = await memberService.update(user._id, updateData) 
 
       return res.status(200).json({ 
           success: true, 
@@ -66,15 +73,15 @@ exports.deleteMember = async (req, res) => {
     const ippis = req.params.ippis
   
     try {
-        const existingMember = await patientService.findOne({ ippis });
+        const existingMember = await memberService.findOne({ ippis });
         if (!existingMember)
             return res.status(404).json({ message: MESSAGES.USER.INVALID_USER_ERROR });
     
-        await memberService.delete( _id ); // <= actually deletes the patient from the db
+        await memberService.delete({ _id: existingMember._id }); // <= actually deletes the member from the db
     
         return res.status(200).json({
             success: true,
-            message: "Patient deleted successfully",
+            message: MESSAGES.USER.DELETED,
         });
     } catch (error) {
       res.status(403).json({ success: false, message: error.message });
@@ -83,15 +90,16 @@ exports.deleteMember = async (req, res) => {
 
 // Fetch a single patient by email
 exports.getMemberByIppis = async (req, res) => {
+  
     const ippis = req.params.ippis;
   
     try {
       // Check if the book to delete is the database
-      const existingPatient = await memberService.findOne({
+      const existingMember = await memberService.findOne({
         ippis: ippis,
       });
   
-      if (!existingPatient) {
+      if (!existingMember) {
         return res.status(403).json({ 
             success: false, 
             message: MESSAGES.USER.INVALID_USER_ERROR 
@@ -100,6 +108,7 @@ exports.getMemberByIppis = async (req, res) => {
       return res.status(201).json({
         success: true,
         message: MESSAGES.USER.FETCHED,
+        her: "bliss",
         data: existingPatient,
       });
     } catch (error) {

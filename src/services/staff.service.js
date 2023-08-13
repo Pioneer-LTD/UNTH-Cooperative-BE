@@ -15,7 +15,7 @@ exports.CreateStaff = async (input) => {
     const { fullname, password } = input;
     const user = await Staff.findOne({ fullname });
     if(!user) {
-    throw MESSAGES.USER.INVALID_USER_ERROR;
+      throw MESSAGES.USER.INVALID_USER_ERROR;
     }
     const isMatch = await user.matchPassword(password)
     if (!isMatch) {

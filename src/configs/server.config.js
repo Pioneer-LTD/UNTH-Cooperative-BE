@@ -1,20 +1,16 @@
 const express = require('express');
-<<<<<<< HEAD
 const { errorHandler } = require('../middlewares/error.middleware')
-=======
 const cors = require('cors')
 // const errorHandler = require('../middlewares/error.middleware')
->>>>>>> 1def5e93f7569dd5f00d27345462e77b5c59ba73
 const router = require('../routes/index.route')
 const formData = require("express-form-data")
+const morgan = require('morgan')
+
 
 function createServer () {
     const app = express()
 
-    // Form type
-    app.use(express.json())
-    app.use(express.urlencoded({extended: false}))
-    app.use(formData.parse())
+    app.use(morgan('dev'))
 
     // Setup Cross-Origin Resource Sharing 
     // to enable passing requests through the frontend
@@ -25,6 +21,11 @@ function createServer () {
         credentials: true
       }));
 
+    // Form type
+    app.use(express.json())
+    app.use(express.urlencoded({extended: false}))
+    app.use(formData.parse())
+
     // Route link
     app.use('/unth-coop', router)
 
@@ -33,6 +34,5 @@ function createServer () {
 
     return app
 }
-
 
 module.exports = createServer

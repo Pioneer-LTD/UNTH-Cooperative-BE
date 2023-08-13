@@ -4,7 +4,8 @@ const memberSchema = new mongoose.Schema({
   ippis: {
       type: Number,
       required: true,
-      trim: true
+      trim: true,
+      unique: [true, "Ippis already exists"]
   },
   first_name: {
     type: String,
@@ -47,12 +48,60 @@ const memberSchema = new mongoose.Schema({
     type: String,
     required: true,
     max: 11,
+    unique: [true, "mobile phone already exists"]
+
   },
   email: {
     type: String,
     required: true,
     unique: [true,"Email already exists"]
-  }},
+  },
+  title: {
+    type: String, enum: ["Mr.", "Mrs.", "Ms.", "Miss"], trom: true
+  },
+  cadre: {
+    type: String, trim: true
+  },
+  level: {
+    type: String, trim: true,
+  },
+  step: {
+    type: String, trim: true,
+  },
+  permanent_staff: {
+    type: Boolean, default: false,
+  },
+  married: {
+    type: Boolean, default: false,
+  },
+  state_of_origin: {
+    type: String, trim: true,
+  },
+  LGA: {
+    type: String, trim: true,
+  },
+  home_town: {
+    type: String, trim: true,
+  },
+  date_joined: {
+    type: String
+  },
+  Residential_address: {
+    type: String, trim: true,
+  },
+  next_of_ken: {
+    type: String, trim: true,
+  },
+  next_of_ken_address: {
+    type: String, trim: true,
+  },
+  photograph: {
+    type: String, trim: true,
+  },
+  signature: {
+    type: String, trim: true,
+  }
+},
   { timestamps: true }
 );
 

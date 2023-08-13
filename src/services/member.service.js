@@ -1,3 +1,4 @@
+const { MESSAGES } = require("../configs/constants.config")
 const memberModel = require("../models/member.model")
 
 class memberService {
@@ -8,10 +9,10 @@ class memberService {
     }
 
     // Edit a member
-    async update(id, memberData) {
-        return await memberModel.findByIdAndUpdate(id, memberData, { 
-            new: true
-        })
+    async update(id, data) {
+        // return await memberModel.findOneAndUpdate(id, { $set: data }, { new: true }).select("-__v -createdAt -updatedAt");
+
+        return await memberModel.findByIdAndUpdate(id, data, { new: true })
     }
 
     // Delete a member
@@ -22,6 +23,12 @@ class memberService {
     // find a member by their id
     async findOne(filter){
         return await memberModel.findOne(filter)
+    }
+
+    async findMemberByIppis(ippis){
+        const user = await memberModel.findOne({ ippis: ippis });
+        if(!user) throw Error(MESSAGES.USER.INVALID_USER_ERROR);
+        return user
     }
 
     // Get all members 

@@ -10,7 +10,7 @@ const {
     fetchAllMember } = require("../controllers/member.controller");
   
 router.post("/register", validate(MemberSchema), register);
-router.patch("/", updateMember);
+router.patch("/:ippis", updateMember);
 router.delete("/:ippis", deleteMember);
 router.get("/all", fetchAllMember);
 router.get("/id/:id", getMemberByID);
