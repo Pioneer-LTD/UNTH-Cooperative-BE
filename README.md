@@ -20,6 +20,15 @@ This repository contains the backend functionalities of a Cooperative Asset Mana
 - Healthcheck: `/api/v1/healthcheck` 
     [ `GET`: Server Health Check ]
 
+ - `staff: `
+    [ `POST`: Register a new staff]  `/api/v1/staffs/register`
+    [ `POST`: Login a staff]  `/api/v1/staffs/login`
+    [ `GET`: get all staffs] `/api/v1/staffs`
+    [ `GET`: get a single staff] `/api/v1/staffs/<id>`
+    [ `PATCH`: update a staff] `/api/v1/staffs/<id>`
+    [ `DELETE`: delete a staff] `/api/v1/staffs/<id>`
+    
+
 - [API Documentation](https://documenter.getpostman.com/view/29089023/2s9Xy3trb3) `/api/v1/docs` [ `GET`: get API Documentation] 
 ## Entity Relationship model
 To view the Entity Relationship Diagram (ERM) navigate [here](https://dbdiagram.io/d/64d0228a02bd1c4a5e53a94a)
