@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const validate = require("../middleware/validate.middleware");
+const validate = require("../middlewares/validate.middleware");
 const { MemberSchema } = require("../schemas/index.schema");
 const {
     register,

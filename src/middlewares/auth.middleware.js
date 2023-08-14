@@ -8,7 +8,7 @@ exports.isAuth = async (req, res, next) => {
     : null;
 
     if (!token) {
-        next(MESSAGES.TOKEN.NOTFOUND);
+        next(new MESSAGES.TOKEN.NOTFOUND);
       } else {
         const { decoded, expired } = verifyToken(token);
     

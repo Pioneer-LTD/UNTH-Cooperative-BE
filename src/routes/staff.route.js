@@ -6,10 +6,12 @@ register,
 updateStaff,
 findAllStaff,
 deleteStaff} = require('../controllers/staff.controller');
-const {isAuth} = require('../middleware/auth.middleware');
-const validate = require('../middleware/validate.middleware');
-const { staffSchema, loginStaff, staffUpdate } = require('../schemas/index.schema');
-
+const {isAuth} = require('../middlewares/auth.middleware');
+const validate = require('../middlewares/validate.middleware');
+const { staffSchema, 
+        loginStaff, 
+        staffUpdate } = require('../schemas/index.schema');
+        
 const router = Router();
 
 router.post('/register', validate(staffSchema), register)

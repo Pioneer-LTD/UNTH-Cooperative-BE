@@ -2,14 +2,14 @@ const joi = require("joi");
 
 // Joi Validation schema used to verify req data
 exports.MemberSchema = joi.object().keys({
-  ippis: joi.string().required(),
+  ippis: joi.string().regex(/^[0-9]{6}$/).messages({'string.pattern.base': `Ippis must have 6 digits.`}).required(),
   first_name: joi.string().required(),
   last_name: joi.string().required(),
   dept_unit: joi.string().required(),
   designation: joi.string().required(),
   sex: joi.string().required(),
   email: joi.string().required().email(),
-  mobile_phone: joi.string().required()
+  mobile_phone: joi.string().regex(/^[0-9]{11}$/).messages({'string.pattern.base': `Phone number must have 10 digits.`}).required()
 });
 
 exports.staffSchema = joi.object().keys({
