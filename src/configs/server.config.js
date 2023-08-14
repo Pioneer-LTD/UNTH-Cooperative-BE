@@ -27,7 +27,7 @@ function createServer () {
     app.use(formData.parse())
 
     // Route link
-    app.use('/unth-coop', router)
+    app.use('/api/v1', router)
 
     // Error Handler
     app.use(errorHandler)

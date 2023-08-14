@@ -56,13 +56,16 @@ exports.register = async (req, res, next) => {
     if(updateData.email){
     const StaffUpdate = await services.fetchOne({ email: updateData.email.toLowerCase()})
     if(StaffUpdate){
-    if(StaffUpdate._id.toString() !== id){
-    res.status(403).json({ success: false, message: 'Staff already exists'})}
-    }
+      if(StaffUpdate._id.toString() !== id){
+        res.status(403).json({ 
+          success: false, 
+          message: 'Staff already exists'
+        })}
+      }
    }
     //update Staff
     const updatedData = await services.updateStaff(req.params.id, updateData)
-    res.status(200).json({ success: true,message: 'Staff updated successfully',data: updatedData})
+    res.status(200).json({ success: true, message: 'Staff updated successfully', data: updatedData})
  } 
      catch (error) {next(error);}
     }
@@ -77,6 +80,3 @@ exports.register = async (req, res, next) => {
   return res.status(200).json({success: true,message: 'Staff Deleted Successfully', data: checkStaff})}
  catch (error) {next(error);}
     }
-
-
-    
