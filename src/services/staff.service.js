@@ -1,20 +1,21 @@
 const Staff = require('../models/staff.model');
 const { MESSAGES } = require('../configs/constants.config');
+
 //Create a Staff
 exports.CreateStaff = async (input) => {
-        const { fullname } = input;
-        const staff = await Staff.findOne({ fullname });
-        if (staff) {
-          throw new MESSAGES.USER.DUPLICATE_EMAIL;
-        }
-        return await Staff.create(input);
+  const { fullname } = input;
+  const staff = await Staff.findOne({ fullname });
+  if (staff) {
+    throw new MESSAGES.USER.DUPLICATE_EMAIL;
+  }
+  return await Staff.create(input);
  };
 
  //login Staff
  exports.Login = async (input) => {
     const { fullname, password } = input;
     const user = await Staff.findOne({ fullname });
-    if(!user) {
+    if (!user) {
       throw MESSAGES.USER.INVALID_USER_ERROR;
     }
     const isMatch = await user.matchPassword(password)

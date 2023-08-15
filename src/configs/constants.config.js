@@ -47,6 +47,14 @@ module.exports = {
             LOGGEDIN: "Login was successful",
             LOGGEDOUT: "Logout was successful"
         },
+        LOAN: {
+            INVALID_LOAN_EXISTING: "Unathorized Request. An Active/Pending Loan was found on this account.",
+            CREATED: "Loan Application Submitted successfully",
+            DFETCHED: "Deposits fetched successfully",
+            UPDATED: "Loan Updated successfully",
+            DELETED: "Loan Deleted successfully",
+            INVALID_LOAN_ID: "Loan ID not found"
+        },
         TRANSACTION: {
             DCREATED: "Deposit created successfully",
             WCREATED: "Withdrawal created successfully",
