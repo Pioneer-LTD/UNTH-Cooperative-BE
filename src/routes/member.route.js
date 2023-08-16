@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const validate = require("../middlewares/validate.middleware");
-const { MemberSchema } = require("../schemas/index.schema");
+const { memberSchema, memberLoanSchema } = require("../schemas/index.schema");
 const {
     register,
     updateMember,
@@ -9,7 +9,8 @@ const {
     getMemberByID,
     fetchAllMember } = require("../controllers/member.controller");
   
-router.post("/register", validate(MemberSchema), register);
+// Member CRUD Operation
+router.post("/register", validate(memberSchema), register);
 router.patch("/:ippis", updateMember);
 router.delete("/:ippis", deleteMember);
 router.get("/all", fetchAllMember);

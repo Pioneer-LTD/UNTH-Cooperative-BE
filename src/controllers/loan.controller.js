@@ -6,43 +6,32 @@ exports.register = async (req, res) => {
     const Info = req.body;
   
     try {
-        let loanData
-        switch(req.position){
+        var member_id
+        switch(req.path){
             // Perform this function as a staff
             case 'staff': 
-                // Check if there is any existing loan
-                const existingloan = await loanService.existingLoan({
-                    ippis: Info.ippis,
-                });
-
-                // Throw error if an existing loan is found
-                if (existingloan) {
-                    return res.status(400).json({ 
-                        success: false, 
-                        message: MESSAGES.LOAN.INVALID_LOAN_EXISTING });
-                }
-
-                // Create loan 
-                loanData = await loanService.createMember({...Info, created_by: req.user});
+                member_id = Info.member_id
                 break;
-
-            case 'member': 
-                // Check if there is any existing loan
-                const existingloan2 = await loanService.existingLoan({
-                    ippis: Info.ippis,
-                });
-
-                // Throw error if an existing loan is found
-                if (existingloan2) {
-                    return res.status(400).json({ 
-                        success: false, 
-                        message: MESSAGES.LOAN.INVALID_LOAN_EXISTING });
-                }
-
-                // Create loan
-                loanData= await loanService.createMember({...Info, created_by: req.user});
-                break;
+            
+            // Set member ID to logged in user
+            default: 
+                member_id = req.user
         }
+
+        // Check if there is any existing loan
+        const existingloan = await loanService.existingLoan({
+            ippis: Info.ippis,
+        });
+
+        // Throw error if an existing loan is found
+        if (existingloan) {
+            return res.status(400).json({ 
+                success: false, 
+                message: MESSAGES.LOAN.INVALID_LOAN_EXISTING });
+        }
+
+        // Create loan
+        loanData= await loanService.createMember({...Info, created_by: req.user, member_id});
   
         // Response
         res.status(200).json({ 
@@ -77,7 +66,7 @@ exports.updateLoan = async (req, res) => {
     catch (error) {
         return res.status(401).json({ success: false, message: error.message })                       
     }    
-}
+};
 
 // Wipe a Member
 exports.deleteLoan = async (req, res) => {
@@ -101,25 +90,13 @@ exports.deleteLoan = async (req, res) => {
 
 // Fetch all loans belonging to a logged in member by email
 exports.getMembersLoans = async (req, res) => {
-    const member_id = req.user;
-
-    try {
-        // Check if the book to delete is the database
-        const existingMember = await loanService.getAll({member_id})
-
-        return res.status(201).json({
-            success: true,
-            message: MESSAGES.USER.FETCHED,
-            data: existingMember
-        });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+    var member_id
+    switch(req.path){
+        case "staff":
+            member_id = req.params.id;
+        default: 
+            member_id = req.user
     }
-};
-
-// Fetch all loans by a staff
-exports.getMembersLoans = async (req, res) => {
-    const member_id = req.params.member_id;
 
     try {
         // Check if the book to delete is the database
@@ -136,7 +113,8 @@ exports.getMembersLoans = async (req, res) => {
 };
 
 // Fetch my Profile
-exports.getLoanByID= async (req, res) => {
+exports.getLoanByID = async (req, res) => {
+
     try {
         const myProfile = await loanService.findOne({
             _id: req.params.loan_id

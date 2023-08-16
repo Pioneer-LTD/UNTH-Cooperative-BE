@@ -100,10 +100,35 @@ const memberSchema = new mongoose.Schema({
   },
   signature: {
     type: String, trim: true,
+  },
+  password: {
+    type: String,
   }
 },
   { timestamps: true }
 );
+
+// Encrypt password before pushing to database
+memberSchema.pre("save", async function (next) {
+  const salt = await bcrypt.genSalt();
+  this.password = await bcrypt.hash(this.password, salt);
+  // this.verification_code = await bcrypt.hash(this.verification_code, salt);
+  next();
+});
+
+memberSchema.methods.matchPassword = async function (password) {
+  if (!password) throw new Error("Password is missing, can not compare");
+
+  try {
+    const result = await bcrypt.compare(password, this.password);
+    return result;
+  } catch (e) {
+      return res.json({ 
+        Success: false, 
+        message: 'Error while comparing password!', 
+        error: e.message})
+  }
+};
 
 const memberModel = mongoose.model("Member", memberSchema);
 

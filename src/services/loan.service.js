@@ -5,7 +5,6 @@ class loanService {
 
     // register a loan model
     async createloan(loan) {
-
         return await loanModel.create(loan)
     }
 

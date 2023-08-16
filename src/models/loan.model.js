@@ -69,7 +69,10 @@ const loanSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId
   }
 },
-  { timestamps: true }
+  { timestamps: {
+    createdAt: true,
+    updatedAt: false
+  }}
 );
 
 const loanModel = mongoose.model("Loan", loanSchema);
