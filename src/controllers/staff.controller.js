@@ -14,7 +14,7 @@ exports.register = async (req, res, next) => {
     exports.login = async (req, res, next) => {
         try {
           const { _id } = await services.Login(req.body);
-          const token = generateToken({ _id }, { expiresIn: '5d' });
+          const token = generateToken({ _id, path: "staff" }, { expiresIn: '5d' });
           res.json({ success: true, message: 'Login Successful', data: token});
         } catch (error) {
           next(error);

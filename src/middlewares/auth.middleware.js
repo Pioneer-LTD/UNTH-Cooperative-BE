@@ -9,22 +9,23 @@ exports.isAuth = async (req, res, next) => {
 
     if (!token) {
         next(new MESSAGES.TOKEN.NOTFOUND);
-      } else {
+    } else {
         const { decoded, expired } = verifyToken(token);
     
         if (expired) {
           next(MESSAGES.TOKEN.EXPIRED);
         }
 
-        const user = await Staff.findById(decoded)
+        // const user = await Staff.findById(decoded)
 
-        if (!user) {
-         next( MESSAGES.TOKEN.NOTFOUND);
-        }
+        // if (!user) {
+        //  next( MESSAGES.TOKEN.NOTFOUND);
+        // }
 
         req.user = { _id : decoded?._id};
-
+        req.path = { path : decoded?.path};
+        
          next();
    
-     }
+    }
 }
