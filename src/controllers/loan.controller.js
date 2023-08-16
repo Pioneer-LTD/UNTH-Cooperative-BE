@@ -66,7 +66,7 @@ exports.updateLoan = async (req, res) => {
     catch (error) {
         return res.status(401).json({ success: false, message: error.message })                       
     }    
-}
+};
 
 // Wipe a Member
 exports.deleteLoan = async (req, res) => {
@@ -114,7 +114,7 @@ exports.getMembersLoans = async (req, res) => {
 
 // Fetch my Profile
 exports.getLoanByID = async (req, res) => {
-    
+
     try {
         const myProfile = await loanService.findOne({
             _id: req.params.loan_id

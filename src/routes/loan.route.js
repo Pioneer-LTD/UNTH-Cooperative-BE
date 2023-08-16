@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const validate = require("../middlewares/validate.middleware");
-const { memberSchema, memberLoanSchema } = require("../schemas/index.schema");
+const { memberLoanSchema,  } = require("../schemas/index.schema");
 const {
     register,
     updateLoan,
@@ -10,7 +10,7 @@ const {
 
 // member Loan accessible
 router.post("/regiser", validate(memberLoanSchema), register);
-router.patch("/:loan_id", updateLoan);
+router.patch("/:loan_id", validate(), updateLoan);
 router.delete("/:loan_id", deleteLoan);
 router.get("/", getMembersLoan);
 router.get("/:loan_id", getLoanByID);
