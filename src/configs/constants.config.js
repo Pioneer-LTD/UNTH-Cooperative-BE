@@ -2,6 +2,7 @@ require('dotenv').config()
 
 module.exports = {
     DATABASE_URI: process.env.DATABASE_URI,
+    DATABASE_URI_TEST: process.env.DATABASE_URI_TEST,
 
     COOKIE_SECRET: process.env.COOKIE_SECRET,
 
@@ -10,16 +11,10 @@ module.exports = {
     MAXAGE: 60 * 60,
     BASEPATH: "/api/v1",
     ENUM: {
-        USER: "user",
-        ADMIN: "admin",
-        PENDING: "pending",
-        SUCCESSFUL: "successful",
-        REJECTED: "rejected",
-        VERIFIED: "verified",
-        NOT_VERIFIED: "notVerified",
-        SEND: "send",
-        DEPOSIT: "deposit",
-        WITHDRAWAL: "withdrawal"
+        SEX: ["M", "F", "LGBTQ"],
+        TITLE: ["Mr.", "Mrs.", "Ms.", "Miss"],
+        STATUS: ["Pending", "Rejected", "Completed", "Active"],
+        LOAN: ["Personal", "Mortgage", "Rent"],
     },
     DATABASES: {
         USER: "user",
@@ -30,6 +25,10 @@ module.exports = {
         DATABASE: {
             CONNECTED: "MongoDB is connected",
             ERROR: "There was an error while connecting to the database."
+        },
+        DATABASE_TEST: {
+            CONNECTED: "Test MongoDB is connected",
+            ERROR: "There was an error while connecting to the test database."
         },
         USER: {
             CREATED: "User created successfully",
