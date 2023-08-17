@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt")
 
 const memberSchema = new mongoose.Schema({
   ippis: {
@@ -102,7 +103,7 @@ const memberSchema = new mongoose.Schema({
     type: String, trim: true,
   },
   password: {
-    type: String,
+    type: String, min: 5, max: 121
   }
 },
   { timestamps: true }

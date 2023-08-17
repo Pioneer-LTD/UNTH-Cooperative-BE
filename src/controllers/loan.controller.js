@@ -32,7 +32,7 @@ exports.register = async (req, res) => {
 
         // Create loan
         loanData= await loanService.createMember({...Info, created_by: req.user, member_id});
-  
+
         // Response
         res.status(200).json({ 
             success: true, 
@@ -89,7 +89,7 @@ exports.deleteLoan = async (req, res) => {
 };
 
 // Fetch all loans belonging to a logged in member by email
-exports.getMembersLoans = async (req, res) => {
+exports.getMemberLoans = async (req, res) => {
     var member_id
     switch(req.path){
         case "staff":

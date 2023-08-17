@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const loanSchema = new mongoose.Schema({
   member_id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: memberModel,
+      ref: "memberModel",
       required: true,
       unique: [true, "MemberID already exists"]
   },
@@ -21,7 +21,7 @@ const loanSchema = new mongoose.Schema({
     enum: ["Personal", "Mortgage"],
   },
   monthly_savings: {
-    type: Nmuber,
+    type: Number,
     required: true,
   },
   loan_amt: {

@@ -7,7 +7,7 @@ module.exports = {
 
     PORT: process.env.PORT,
     SECRET: process.env.SECRET,
-    MAXAGE: 3 * 24 * 60 * 60,
+    MAXAGE: 60 * 60,
     BASEPATH: "/api/v1",
     ENUM: {
         USER: "user",

@@ -7,14 +7,14 @@ exports.register = async (req, res) => {
   
     try {
       // CrossCheck if the email or phone number is existing in the database
-      const existingIppis = await memberService.findOne({
+      const existingIppis = await memberService.getAll({
         ippis: Info.ippis,
       });
   
-      const existingEmail = await memberService.findOne({
+      const existingEmail = await memberService.getAll({
         email: Info.email,
       });
-      const existingNumber = await memberService.findOne({
+      const existingNumber = await memberService.getAll({
         mobile_phone: Info.mobile_phone,
       });
   
@@ -24,7 +24,7 @@ exports.register = async (req, res) => {
       }
   
         // Create member
-        const memberData = await memberService.createMember({...Info });
+        const memberData = await memberService.createMember({...Info, password: Info.ippis });
 
         // Send Welcoming Email
         // await sendMail(memberInfo.email, memberInfo.firstName, "member")
@@ -36,6 +36,31 @@ exports.register = async (req, res) => {
     } catch (error) {
       res.status(500).json({ Success: false, message: error.message }) 
     }
+};
+
+// Login Member
+exports.login = async (req, res) => {
+  const { ippis, password } = req.body;
+
+  try {
+    const existingMember = await memberService.findOne({ ippis });
+
+    // check password
+    const checkPassword = await existingMember.matchPassword(password);
+    if (!checkPassword) {
+      return res.status(400).json({ message: MESSAGES.USER.INVALID_PASSWORD_ERROR }); 
+    }
+
+    const token = encode_jwt({ _id: existingMember._id, path: "member" });
+
+    res.status(200).json({
+      token: token,
+      Token_Type: "Bearer",
+      Patient_ID: existingPatient._id,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 // Update a user
