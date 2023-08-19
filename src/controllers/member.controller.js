@@ -1,5 +1,7 @@
-const { MESSAGES } = require('../configs/constants.config');
+const { MESSAGES, MAXAGE } = require('../configs/constants.config');
 const memberService = require('../services/member.service')
+const { generateToken } = require('../utils/jwt.util');
+
 
 // Register member
 exports.register = async (req, res) => {
@@ -10,21 +12,15 @@ exports.register = async (req, res) => {
       const existingIppis = await memberService.getAll({
         ippis: Info.ippis,
       });
-  
-      const existingEmail = await memberService.getAll({
-        email: Info.email,
-      });
-      const existingNumber = await memberService.getAll({
-        mobile_phone: Info.mobile_phone,
-      });
-  
+      
       // Throw error if email or phone number is already existing
-      if (existingIppis || existingEmail || existingNumber) {
+      if ( existingIppis.length > 0 ) {
         return res.status(400).json({ message: MESSAGES.USER.DUPLICATE_ERROR });
       }
+      console.log("hey")
   
-        // Create member
-        const memberData = await memberService.createMember({...Info, password: Info.ippis });
+      // Create member
+      const memberData = await memberService.createMember({...Info, password: Info.ippis });
 
         // Send Welcoming Email
         // await sendMail(memberInfo.email, memberInfo.firstName, "member")
@@ -51,21 +47,31 @@ exports.login = async (req, res) => {
       return res.status(400).json({ message: MESSAGES.USER.INVALID_PASSWORD_ERROR }); 
     }
 
-    const token = encode_jwt({ _id: existingMember._id, path: "member" });
+    const token = generateToken({ _id: existingMember._id, ippis: existingMember.ippis, path: "member" }, { expiresIn: MAXAGE });
 
     res.status(200).json({
       token: token,
       Token_Type: "Bearer",
-      Patient_ID: existingPatient._id,
+      Member_id: existingMember._id
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+      res.status(500).json({ message: error.message });
   }
 };
 
 // Update a user
 exports.updateMember = async (req, res) => {
-  const ippis = req.params.ippis
+  var ippis
+  switch(req.path){
+    case("staff"):
+      ippis = req.params.ippis
+      break;
+
+    default:
+      ippis= req.ippis
+      break;
+  }
+
   const updateData = req.body
 
   try{
@@ -95,12 +101,21 @@ exports.updateMember = async (req, res) => {
 
 // Wipe a Member
 exports.deleteMember = async (req, res) => {
-    const ippis = req.params.ippis
-  
+    var ippis
+
+    switch(req.path){
+      case("staff"):
+        ippis = req.params.ippis
+        break;
+
+      default:
+        ippis= req.ippis
+        break;
+    }
     try {
         const existingMember = await memberService.findOne({ ippis });
-        if (!existingMember)
-            return res.status(404).json({ message: MESSAGES.USER.INVALID_USER_ERROR });
+        if (!existingMember) {
+            return res.status(404).json({ message: MESSAGES.USER.INVALID_USER_ERROR });};
     
         await memberService.delete({ _id: existingMember._id }); // <= actually deletes the member from the db
     
@@ -129,6 +144,23 @@ exports.getMemberByIppis = async (req, res) => {
     } catch (error) {
       res.status(500).json({ success: false, message: error.message });
     }
+};
+
+// Fetch my profile
+exports.getMyProfile = async (req, res) => {
+  const ippis = req.ippis;
+  try {
+    // Check if the book to delete is the database
+    const existingMember = await memberService.findMemberByIppis(ippis)
+
+    return res.status(201).json({
+      success: true,
+      message: MESSAGES.USER.FETCHED,
+      data: existingMember
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 };
 
 // Fetch my Profile

@@ -1,6 +1,6 @@
 module.exports ={
     RegisterMember1: {
-        ippis: 556374,
+        ippis: '556374',
         first_name: "Ifeanyi Benard",
         last_name: "Okafor",
         dept_unit: "Nursing Services",
@@ -10,7 +10,7 @@ module.exports ={
         mobile_phone: "08129741530"
     },
     RegisterMember2: {
-        ippis: 534374,
+        ippis: '534374',
         first_name: "Nwachi Uche",
         last_name: "Ibeagi",
         dept_unit: "Dentist Services",
@@ -25,6 +25,6 @@ module.exports ={
     },
     loginMember2: {
         ippis: "534374",
-        password: "534374"
+        password: "534374"                                                                                                                                                                                                                                                                                                                                
     }
 }

@@ -24,8 +24,9 @@ exports.isAuth = async (req, res, next) => {
 
         req.user = { _id : decoded?._id};
         req.path = { path : decoded?.path};
+        if (decoded?.ippis) req.ippis = decoded?.ippis;
         
-         next();
+        next();
    
     }
 }

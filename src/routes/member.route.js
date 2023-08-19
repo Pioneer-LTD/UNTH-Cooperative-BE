@@ -8,16 +8,18 @@ const {
     updateMember,
     deleteMember,
     getMemberByIppis,
+    getMyProfile,
     getMemberByID,
     fetchAllMember } = require("../controllers/member.controller");
   
 // Member CRUD Operation
 router.post("/register", validate(memberSchema), register);
 router.post("/login", validate(loginMember), login);
-router.patch("/:ippis", isAuth, updateMember);
-router.delete("/:ippis", isAuth, deleteMember);
-router.get("/all", isAuth, fetchAllMember);
-router.get("/id/:id", isAuth, getMemberByID);
-router.get("/:ippis", isAuth, getMemberByIppis);
+router.delete("/", isAuth, deleteMember);
+router.patch("/", isAuth, updateMember);
+router.get("/", isAuth, getMyProfile);
+// router.get("/all", isAuth, fetchAllMember);
+// router.get("/id/:id", isAuth, getMemberByID);
+// router.get("/:ippis", isAuth, getMemberByIppis);
 
 module.exports = router;
