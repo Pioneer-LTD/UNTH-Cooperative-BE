@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
+const { ENUM } = require("../configs/constants.config");
 
 const loanSchema = new mongoose.Schema({
   member_id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: memberModel,
+      ref: "memberModel",
       required: true,
       unique: [true, "MemberID already exists"]
   },
@@ -18,16 +19,15 @@ const loanSchema = new mongoose.Schema({
   purpose: {
     type: String,
     required: true,
-    enum: ["Personal", "Mortgage"],
+    enum: ENUM.LOAN,
   },
   monthly_savings: {
-    type: Nmuber,
+    type: Number,
     required: true,
   },
   loan_amt: {
     type: String,
     required: true,
-    enum: ["M", "F", "LGBTQ"],
   },
   rate: {
       type: Number,
@@ -61,9 +61,9 @@ const loanSchema = new mongoose.Schema({
   },
   status: {
     type: String, 
-    enum: ["Pending", "Active", "Declined", "Completed"], 
+    enum: ENUM.STATUS,
     trim: true,
-    default: "Pending"
+    default: ENUM.STATUS[0]
   },
   authorized_by: {
     type: mongoose.Schema.Types.ObjectId

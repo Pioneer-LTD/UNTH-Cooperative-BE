@@ -12,12 +12,21 @@ exports.memberSchema = joi.object().keys({
   mobile_phone: joi.string().regex(/^[0-9]{11}$/).messages({'string.pattern.base': `Phone number must have 10 digits.`}).required()
 });
 
+exports.loginMember = joi.object().keys({
+  ippis: joi.string().regex(/^[0-9]{6}$/).messages({'string.pattern.base': `Ippis must be 6 digits.`}).required(),
+  password: joi.string().min(5).max(121).required(),
+})
+
 exports.memberLoanSchema = joi.object().keys({
   loan_amt: joi.number().required(),
   purpose: joi.string().required(),
   tenor: joi.string().required(),
-  status: Joi.string().valid('Pending')
+  status: joi.string().valid('Pending')
 });
+
+exports.loanUpdate = joi.object().keys({
+  status: joi.string().valid('Pending')
+})
 
 exports.staffSchema = joi.object().keys({
   fullname: joi.string().max(54).required(),
