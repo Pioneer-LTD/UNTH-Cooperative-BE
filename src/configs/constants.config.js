@@ -2,24 +2,20 @@ require('dotenv').config()
 
 module.exports = {
     DATABASE_URI: process.env.DATABASE_URI,
+    DATABASE_URI_TEST: process.env.DATABASE_URI_TEST,
 
+    JWT_SECRET: process.env.JWT_SECRET,
     COOKIE_SECRET: process.env.COOKIE_SECRET,
 
     PORT: process.env.PORT,
     SECRET: process.env.SECRET,
-    MAXAGE: 3 * 24 * 60 * 60,
+    MAXAGE: 60 * 60,
     BASEPATH: "/api/v1",
     ENUM: {
-        USER: "user",
-        ADMIN: "admin",
-        PENDING: "pending",
-        SUCCESSFUL: "successful",
-        REJECTED: "rejected",
-        VERIFIED: "verified",
-        NOT_VERIFIED: "notVerified",
-        SEND: "send",
-        DEPOSIT: "deposit",
-        WITHDRAWAL: "withdrawal"
+        SEX: ["M", "F", "LGBTQ"],
+        TITLE: ["Mr.", "Mrs.", "Ms.", "Miss"],
+        STATUS: ["Pending", "Rejected", "Completed", "Active"],
+        LOAN: ["Personal", "Mortgage", "Rent"],
     },
     DATABASES: {
         USER: "user",
@@ -30,6 +26,10 @@ module.exports = {
         DATABASE: {
             CONNECTED: "MongoDB is connected",
             ERROR: "There was an error while connecting to the database."
+        },
+        DATABASE_TEST: {
+            CONNECTED: "Test MongoDB is connected",
+            ERROR: "There was an error while connecting to the test database."
         },
         USER: {
             CREATED: "User created successfully",
@@ -46,6 +46,14 @@ module.exports = {
             INVALID_PASSWORD_ERROR: "Invalid password",
             LOGGEDIN: "Login was successful",
             LOGGEDOUT: "Logout was successful"
+        },
+        LOAN: {
+            INVALID_LOAN_EXISTING: "Unathorized Request. An Active/Pending Loan was found on this account.",
+            CREATED: "Loan Application Submitted successfully",
+            DFETCHED: "Deposits fetched successfully",
+            UPDATED: "Loan Updated successfully",
+            DELETED: "Loan Deleted successfully",
+            INVALID_LOAN_ID: "Loan ID not found"
         },
         TRANSACTION: {
             DCREATED: "Deposit created successfully",

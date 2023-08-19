@@ -1,6 +1,6 @@
-const jwt = require ('jsonwebtoken')
+const jwt = require ('jsonwebtoken');
+const { JWT_SECRET } = require('../configs/constants.config');
 
-const JWT_SECRET = process.env.JWT_SECRET;
 
 exports.generateToken = (payload, options) => {
   return jwt.sign(payload, JWT_SECRET, { ...options });

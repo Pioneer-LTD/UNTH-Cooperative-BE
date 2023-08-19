@@ -1,5 +1,6 @@
 const { generateToken } = require('../utils/jwt.util');
 const services = require('../services/staff.service');
+const { MAXAGE } = require('../configs/constants.config');
 
 //create a Staff
 exports.register = async (req, res, next) => {        
@@ -14,7 +15,7 @@ exports.register = async (req, res, next) => {
     exports.login = async (req, res, next) => {
         try {
           const { _id } = await services.Login(req.body);
-          const token = generateToken({ _id }, { expiresIn: '5d' });
+          const token = generateToken({ _id, path: "staff" }, { expiresIn: MAXAGE });
           res.json({ success: true, message: 'Login Successful', data: token});
         } catch (error) {
           next(error);

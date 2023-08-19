@@ -1,19 +1,25 @@
 const router = require("express").Router();
 const validate = require("../middlewares/validate.middleware");
-const { MemberSchema } = require("../schemas/index.schema");
+const { isAuth } = require("../middlewares/auth.middleware")
+const { memberSchema, loginMember } = require("../schemas/index.schema");
 const {
     register,
+    login,
     updateMember,
     deleteMember,
     getMemberByIppis,
+    getMyProfile,
     getMemberByID,
     fetchAllMember } = require("../controllers/member.controller");
   
-router.post("/register", validate(MemberSchema), register);
-router.patch("/:ippis", updateMember);
-router.delete("/:ippis", deleteMember);
-router.get("/all", fetchAllMember);
-router.get("/id/:id", getMemberByID);
-router.get("/:ippis", getMemberByIppis);
+// Member CRUD Operation
+router.post("/register", validate(memberSchema), register);
+router.post("/login", validate(loginMember), login);
+router.delete("/", isAuth, deleteMember);
+router.patch("/", isAuth, updateMember);
+router.get("/", isAuth, getMyProfile);
+// router.get("/all", isAuth, fetchAllMember);
+// router.get("/id/:id", isAuth, getMemberByID);
+// router.get("/:ippis", isAuth, getMemberByIppis);
 
 module.exports = router;

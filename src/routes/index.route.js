@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const memberRouter = require("./member.route");
+const loanRouter = require("./loan.route");
 const staffRoute = require("./staff.route");
 
 router.get("/docs", (req, res) => 
@@ -11,5 +12,6 @@ router.get('/healthcheck', (req, res) => {
  });
 
 router.use("/members", memberRouter);
+router.use("/members/loans", loanRouter);
 router.use('/staffs', staffRoute)
 module.exports = router;
