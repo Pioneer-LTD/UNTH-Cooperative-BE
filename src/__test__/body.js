@@ -26,5 +26,15 @@ module.exports ={
     loginMember2: {
         ippis: "534374",
         password: "534374"                                                                                                                                                                                                                                                                                                                                
-    }
+    },
+    loan1: {
+        loan_amt: "50,000",
+        purpose: "Rent",
+        tenor: "6 Months"
+    },
+    loan2: {
+        loan_amt: "50,000",
+        purpose: "Rent",
+        tenor: "6 Months"
+    },
 }
