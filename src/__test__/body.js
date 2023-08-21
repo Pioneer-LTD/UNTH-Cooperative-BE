@@ -35,6 +35,6 @@ module.exports ={
     loan2: {
         loan_amt: "50,000",
         purpose: "Rent",
-        tenor: "6 Months"
+        tenor: "Personal"
     },
 }

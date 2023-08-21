@@ -53,7 +53,7 @@ module.exports = {
             DFETCHED: "Deposits fetched successfully",
             UPDATED: "Loan Updated successfully",
             DELETED: "Loan Deleted successfully",
-            INVALID_LOAN_ID: "Loan ID not found"
+            INVALID_LOAN_ID: "Loan not found"
         },
         TRANSACTION: {
             DCREATED: "Deposit created successfully",
