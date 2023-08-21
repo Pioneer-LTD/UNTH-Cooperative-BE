@@ -2,16 +2,15 @@ const mongoose = require("mongoose");
 const { ENUM } = require("../configs/constants.config");
 
 const loanSchema = new mongoose.Schema({
-  member_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "memberModel",
-      required: true,
-      unique: [true, "MemberID already exists"]
-  },
-  application_date: {
-    type: Date,
+  member_ippis: {
+    type: Number,
+    ref: "memberModel",
     required: true,
   },
+  // application_date: {
+  //   type: Date,
+  //   required: true,
+  // },
   loan_granted_date: {
     type: Date,
     trim: true,
@@ -30,22 +29,21 @@ const loanSchema = new mongoose.Schema({
     required: true,
   },
   rate: {
-      type: Number,
-      trim: true,
-      required: true,
-      default: 1
+    type: Number,
+    trim: true,
+    required: true,
+    default: 1
   },
   tenor: {
-      type: Number,
-      trim: true,
-      required: true,
-      default: 0
+    type: String,
+    trim: true,
+    required: true,
+    default: 0
   },
   total_interest: {
     type: String,
     required: true,
     max: 11,
-    unique: [true, "mobile phone already exists"]
   },
   adjusted_savings: {
     type: Number,
@@ -65,8 +63,12 @@ const loanSchema = new mongoose.Schema({
     trim: true,
     default: ENUM.STATUS[0]
   },
+  created_by: {
+    type: mongoose.Schema.Types.ObjectId,
+  },
   authorized_by: {
-    type: mongoose.Schema.Types.ObjectId
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "staffModel",
   }
 },
   { timestamps: {

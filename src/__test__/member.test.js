@@ -113,4 +113,24 @@ describe("Test member Functionalities", ()=> {
             expect(result.body).toMatchObject({ success: true });
         })
     })
+
+    describe("Testing Loan Routes", () =>{
+        test("Register user",async () => {
+            const result = await supertest(app)
+                    .post("/api/v1/members/register")
+                    .send(RegisterMember1)
+            
+            expect(result.statusCode).toBe(200)
+            expect(result.body.data).toMatchObject({
+                _id : expect.any(String),
+                ippis : expect.any(Number),
+                first_name: expect.any(String),
+                last_name: expect.any(String),
+                dept_unit: expect.any(String),
+                designation: expect.any(String),
+                email: expect.any(String),
+                mobile_phone: expect.any(String)
+            })
+        })
+    })
 })

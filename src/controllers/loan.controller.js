@@ -6,62 +6,67 @@ exports.register = async (req, res) => {
     const Info = req.body;
   
     try {
-        var member_id
+        var member_ippis
         switch(req.path){
             // Perform this function as a staff
             case 'staff': 
-                member_id = Info.member_id
+                member_ippis = Info.member_ippis
                 break;
             
             // Set member ID to logged in user
             default: 
-                member_id = req.user
+                member_ippis = req.ippis
         }
+        
+        // If there is any existing loan "Pending" throw an error
+        await loanService.nonExistingLoan(member_ippis);
 
-        // Check if there is any existing loan
-        const existingloan = await loanService.existingLoan({
-            ippis: Info.ippis,
-        });
-
-        // Throw error if an existing loan is found
-        if (existingloan) {
-            return res.status(400).json({ 
-                success: false, 
-                message: MESSAGES.LOAN.INVALID_LOAN_EXISTING });
-        }
-
-        // Create loan
-        loanData= await loanService.createMember({...Info, created_by: req.user, member_id});
+        // Create Loan
+        const loanData = await loanService.createloan({...Info, created_by: req.user, member_ippis});
 
         // Response
         res.status(200).json({ 
-            success: true, 
-            message: MESSAGES.LOAN.CREATED, 
-            data: loanData 
+            success: true,
+            message: MESSAGES.LOAN.CREATED,
+            data: loanData
         });
   
     } catch (error) {
-      res.status(500).json({ Success: false, message: error.message }) 
+        res.status(500).json({ Success: false, message: error.message }) 
     }
 };
 
 // Update a user
 exports.updateLoan = async (req, res) => {
-    const _id = req.params.loan_id
-    const updateData = req.body
+    const data = req.body
     
-    try {
-            // Gets the existing Loan
-            const loan = await loanService.findOne(_id)
+    try {   
+        // Since there is just on pending loan a member can have at a time there
+        // won't need to ask for the loan id from the member when updating
+        var member_ippis
+        switch(req.path){
+            // Perform this function as a staff
+            case 'staff': 
+                member_ippis = req.params.ippis
+                break;
+            
+            // Set member ID to logged in user
+            default: 
+                member_ippis = req.ippis
+        }
+        
+        // Gets the existing Loan, The query below gets the pending loan of the user ippis 
+        const loan = await loanService.findOne({status: "Pending", member_ippis})
+        if (!loan) throw new Error(MESSAGES.LOAN.INVALID_LOAN_ID)
 
-            const updatedData = await loanService.update(loan._id, updateData) 
+        const updatedData = await loanService.update(loan._id, data) 
 
-            return res.status(200).json({ 
-                success: true, 
-                message: MESSAGES.LOAN.UPDATED, 
-                data: updatedData 
-            })
-            // Send an email here 
+        return res.status(200).json({ 
+            success: true, 
+            message: MESSAGES.LOAN.UPDATED, 
+            data: updatedData 
+        })
+        // Send an email here
     } 
     catch (error) {
         return res.status(401).json({ success: false, message: error.message })                       
@@ -74,10 +79,25 @@ exports.deleteLoan = async (req, res) => {
     const id = req.params.loan_id
     
     try {
-        // Gets the existing pending Loan
-        const loan = await loanService.findOne({ status: { $in: ["Pending"] }, _id: id })
+        // Since there is just on pending loan a member can have at a time there
+        // won't need to ask for the loan id from the member when updating
+        var member_ippis
+        switch(req.path){
+            // Perform this function as a staff
+            case 'staff': 
+                member_ippis = req.params.ippis
+                break;
+            
+            // Set member ID to logged in user
+            default: 
+                member_ippis = req.ippis
+        }
+        
+        // Gets the existing Loan, The query below gets the pending loan of the user ippis 
+        const loan = await loanService.findOne({status: "Pending", member_ippis})
+        if (!loan) throw new Error(MESSAGES.LOAN.INVALID_LOAN_ID)
     
-        await loanService.delete({ _id: loan._id }); // <= actually deletes the loan from the db
+        await loanService.delete({ _id: loan._id });
     
         return res.status(200).json({
             success: true,
@@ -90,17 +110,17 @@ exports.deleteLoan = async (req, res) => {
 
 // Fetch all loans belonging to a logged in member by email
 exports.getMemberLoans = async (req, res) => {
-    var member_id
+    var member_ippis
     switch(req.path){
         case "staff":
-            member_id = req.params.id;
+            member_ippis = req.params.ippis;
         default: 
-            member_id = req.user
+            member_ippis = req.ippis
     }
 
     try {
         // Check if the book to delete is the database
-        const existingMember = await loanService.getAll({member_id})
+        const existingMember = await loanService.getAll({member_ippis})
 
         return res.status(201).json({
             success: true,

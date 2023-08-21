@@ -2,10 +2,9 @@ const mongoose = require("mongoose");
 
 const withdrawalSchema = new mongoose.Schema({
     member_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: memberModel,
-        required: true,
-        unique: [true, "MemberID already exists"]
+        type: Number,
+        trim: true,
+        required: true
     },
     amount: {
         type: Number,
