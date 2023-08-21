@@ -17,7 +17,6 @@ exports.register = async (req, res) => {
       if ( existingIppis.length > 0 ) {
         return res.status(400).json({ message: MESSAGES.USER.DUPLICATE_ERROR });
       }
-      console.log("hey")
   
       // Create member
       const memberData = await memberService.createMember({...Info, password: Info.ippis });
@@ -27,7 +26,10 @@ exports.register = async (req, res) => {
       
   
       // Response
-      res.status(200).json({ Success: true, message: MESSAGES.USER.CREATED, data: memberData });
+      return res.status(200).json({ 
+        Success: true, 
+        message: MESSAGES.USER.CREATED, data: memberData 
+      });
   
     } catch (error) {
       res.status(500).json({ Success: false, message: error.message }) 
@@ -61,31 +63,30 @@ exports.login = async (req, res) => {
 
 // Update a user
 exports.updateMember = async (req, res) => {
-  var ippis
-  switch(req.path){
-    case("staff"):
-      ippis = req.params.ippis
-      break;
-
-    default:
-      ippis= req.ippis
-      break;
-  }
-
   const updateData = req.body
 
   try{
-      const user = await memberService.findMemberByIppis(ippis)
+    var ippis
 
-      // Check if selected email is already taken
-      if(updateData.email){
-          const emailAvailable = await memberService.findOne({ email: updateData.email })
+    switch(req.path){
+      case("staff"):
+        ippis = req.params.ippis
+        break;
 
-          // throws an error if the username selected is taken
-          if (emailAvailable){ 
-              return res.status(403).json({ success: false, message: MESSAGES.USER.DUPLICATE_EMAIL})
-          }
-      }
+      default:
+        ippis= req.ippis
+        break;
+    }
+    const user = await memberService.findMemberByIppis(ippis)
+
+    // Check if selected email is already taken
+    if(updateData.ippis){
+      const ippisAvailable = await memberService.findOne({ email: updateData.ippis })
+
+      // throws an error if the ippis selected is taken
+      if (ippisAvailable) throw new Error(MESSAGES.USER.DUPLICATE_EMAIL)
+    }
+    // Update 
     const updatedData = await memberService.update(user._id, updateData) 
 
       return res.status(200).json({ 
@@ -169,6 +170,7 @@ exports.getMemberByID= async (req, res) => {
         const myProfile = await memberService.findOne({
             _id: req.params.id
         });
+        if (!myProfile) throw new Error(MESSAGES.USER.INVALID_USER_ERROR)
 
         return res.status(201).json({
             success: true,
