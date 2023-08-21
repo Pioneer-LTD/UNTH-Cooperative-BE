@@ -16,17 +16,16 @@ exports.isAuth = async (req, res, next) => {
           next(MESSAGES.TOKEN.EXPIRED);
         }
 
-        // const user = await Staff.findById(decoded)
+     if (decoded.role == 'staff') {
+      const user = await Staff.findById(decoded?._id);
 
-        // if (!user) {
-        //  next( MESSAGES.TOKEN.NOTFOUND);
-        // }
-
-        req.user = { _id : decoded?._id};
-        req.path = { path : decoded?.path};
+      if (!user) {
+        next(new MESSAGES.USER.INVALID_USER_ERROR);
+      }
+    }
+    req.user = { _id: decoded?._id, role: decoded.role }
         if (decoded?.ippis) req.ippis = decoded?.ippis;
         
-        next();
-   
+        next(); 
     }
 }
