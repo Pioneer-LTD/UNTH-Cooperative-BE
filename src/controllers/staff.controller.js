@@ -1,5 +1,6 @@
 const { generateToken } = require('../utils/jwt.util');
 const services = require('../services/staff.service');
+const { MAXAGE } = require('../configs/constants.config');
 
 //create a Staff
 exports.register = async (req, res, next) => {        

@@ -23,10 +23,9 @@ exports.isAuth = async (req, res, next) => {
         next(new MESSAGES.USER.INVALID_USER_ERROR);
       }
     }
-
-    req.user = { _id: decoded?._id, role: decoded.role };
+    req.user = { _id: decoded?._id, role: decoded.role }
+        if (decoded?.ippis) req.ippis = decoded?.ippis;
         
-    next();
-   
+        next(); 
     }
 }

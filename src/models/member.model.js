@@ -1,11 +1,13 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
+const { ENUM } = require("../configs/constants.config");
 
 const memberSchema = new mongoose.Schema({
   ippis: {
-      type: Number,
-      required: true,
-      trim: true,
-      unique: [true, "Ippis already exists"]
+    type: Number,
+    required: true,
+    trim: true,
+    unique: [true, "Ippis already exists"]
   },
   first_name: {
     type: String,
@@ -30,7 +32,7 @@ const memberSchema = new mongoose.Schema({
   sex: {
     type: String,
     required: true,
-    enum: ["M", "F", "LGBTQ"],
+    enum: ENUM.SEX,
   },
   monthly_savings: {
       type: Number,
@@ -57,7 +59,7 @@ const memberSchema = new mongoose.Schema({
     unique: [true,"Email already exists"]
   },
   title: {
-    type: String, enum: ["Mr.", "Mrs.", "Ms.", "Miss"], trom: true
+    type: String, enum: ENUM.TITLE, trim: true
   },
   cadre: {
     type: String, trim: true
@@ -102,7 +104,7 @@ const memberSchema = new mongoose.Schema({
     type: String, trim: true,
   },
   password: {
-    type: String,
+    type: String, min: 5, max: 121
   }
 },
   { timestamps: true }
