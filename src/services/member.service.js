@@ -22,9 +22,7 @@ class memberService {
 
     // find a member by their id
     async findOne(filter){
-        const search = await memberModel.findOne(filter)
-        if (search) return search;
-        else throw new Error(MESSAGES.USER.INVALID_USER_ERROR); 
+        return await memberModel.findOne(filter)
     }
 
     async findMemberByIppis(ippis){

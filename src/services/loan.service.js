@@ -9,9 +9,22 @@ class loanService {
     }
 
     async existingLoan(ippis){
-        const filter = { status: { $in: ["Pending", "Active"] }, ippis: ippis };
-        const active_loan = await loanModel.find(filter)
-        return active_loan ? true : false
+        const filter = { status: { $in: ["Pending", "Active"] }, member_ippis: ippis };
+        const search = await loanModel.findOne(filter)
+        if (search) return search;
+        else throw new Error(MESSAGES.LOAN.INVALID_LOAN_ID); 
+    }
+
+    async nonExistingLoan(ippis){
+        const filter = { status: { $in: ["Pending", "Active"] }, member_ippis: ippis };
+        const search = await loanModel.findOne(filter)
+        if (!search) return true
+        else throw new Error(MESSAGES.LOAN.INVALID_LOAN_EXISTING); 
+    }
+
+     // find a loan by their id
+     async findOne(filter){
+        return await loanModel.findOne(filter)
     }
 
     // Edit a loan
@@ -26,12 +39,12 @@ class loanService {
         return await loanModel.findByIdAndDelete(filter)
     }
 
-    // find a loan by their id
-    async findOne(filter){
-        const search = await loanModel.findOne(filter)
-        if (search) return search;
-        else throw new Error(MESSAGES.LOAN.INVALID_LOAN_ID); 
-    }
+   
+
+    // // find a loan by their id
+    // async findOne(filter){
+    //     return await loanModel.findOne(filter)
+    // }
 
     // Get all loans 
     async getAll(filter) {

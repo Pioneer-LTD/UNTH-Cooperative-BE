@@ -11,9 +11,9 @@ const {
 
 // member Loan accessible
 
-router.post("/regiser", isAuth, validate(memberLoanSchema), register);
-router.patch("/:loan_id", isAuth, validate(loanUpdate), updateLoan);
-router.delete("/:loan_id", isAuth, deleteLoan);
+router.post("/register", isAuth, validate(memberLoanSchema), register);
+router.patch("/", isAuth, validate(loanUpdate), updateLoan);
+router.delete("/", isAuth, deleteLoan);
 router.get("/", isAuth, getMemberLoans);
 router.get("/:loan_id", isAuth, getLoanByID);
 
