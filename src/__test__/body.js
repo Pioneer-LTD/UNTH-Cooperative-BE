@@ -28,13 +28,17 @@ module.exports ={
         password: "534374"                                                                                                                                                                                                                                                                                                                                
     },
     loan1: {
-        loan_amt: "50,000",
-        purpose: "Rent",
-        tenor: "6 Months"
+        "loan_amt": 50001,
+        "purpose": "Rent",
+        "tenor": "6 Months",
+        "monthly_savings": "30000",
+        "total_interest": "33405"
     },
     loan2: {
-        loan_amt: "50,000",
-        purpose: "Rent",
-        tenor: "Personal"
+        "loan_amt": 50001,
+        "purpose": "Rent",
+        "tenor": "6 Months",
+        "monthly_savings": "30000",
+        "total_interest": "33405"
     },
 }
