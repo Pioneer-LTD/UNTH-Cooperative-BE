@@ -3,7 +3,8 @@
  //create a Withdrawal
 exports.createWithdrawal = async (req, res, next) => {        
     try {
-       const newWithdrawal = await services.CreateWithdrawal({ ...req.body });    
+      // console.log(req.user._id)
+       const newWithdrawal = await services.createWithdrawal({ ...req.body, authorised_by: req.user._id, created_by: req.user._id });    
        res.status(201).json({ success: true, message: 'Withdrawal created Successfully', data: newWithdrawal })
    } catch (error) {
     next(error)

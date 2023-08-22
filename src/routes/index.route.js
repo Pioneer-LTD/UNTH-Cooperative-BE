@@ -5,7 +5,7 @@ const staffRoute = require("./staff.route");
 const withdrawalRoute = require('./withdraw.route')
 
 router.get("/docs", (req, res) => 
-     res.redirect("https://documenter.getpostman.com/view/29089023/2s9Xy3trb3") 
+     res.redirect("https://documenter.getpostman.com/view/19026826/2s9Y5VSiRW") 
   );
 
 router.get('/healthcheck', (req, res) => {
