@@ -124,7 +124,7 @@ exports.getMemberLoans = async (req, res) => {
 
         return res.status(201).json({
             success: true,
-            message: MESSAGES.USER.FETCHED,
+            message: MESSAGES.LOAN.FETCHED,
             data: existingMember
         });
     } catch (error) {

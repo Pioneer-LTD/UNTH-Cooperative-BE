@@ -50,7 +50,7 @@ module.exports = {
         LOAN: {
             INVALID_LOAN_EXISTING: "Unathorized Request. An Active/Pending Loan was found on this account.",
             CREATED: "Loan Application Submitted successfully",
-            DFETCHED: "Deposits fetched successfully",
+            FETCHED: "Loan fetched successfully",
             UPDATED: "Loan Updated successfully",
             DELETED: "Loan Deleted successfully",
             INVALID_LOAN_ID: "Loan not found"
