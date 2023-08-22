@@ -8,7 +8,9 @@ const value = {}
 const { RegisterMember1,
     RegisterMember2,
     loginMember1,
-    loginMember2 } = require("./body");
+    loginMember2, 
+    loan1,
+    loan2 } = require("./body");
 const { MESSAGES } = require("../configs/constants.config");
 
 /* Closing database connection after each test. */
@@ -102,7 +104,67 @@ describe("Test member Functionalities", ()=> {
             expect(result.body).toMatchObject({ success: true });
         })
 
-        // Delete
+        
+    })
+
+    describe("Testing Loan Routes", () =>{
+        test("Register loan",async () => {
+            const result = await supertest(app)
+                    .post("/api/v1/members/loans/register")
+                    .set('Authorization', `Bearer ${value.key2}`)
+                    .send(loan1)
+                
+            expect(result.statusCode).toBe(200)
+            expect(result.body.message).toBe( MESSAGES.LOAN.CREATED)
+            expect(result.body.data).toMatchObject({
+                _id : expect.any(String),
+                loan_amt : expect.any(String),
+                tenor: expect.any(String),
+                rate: expect.any(Number),
+                intrest: expect.any(Number),
+                status: expect.any(String),
+            })
+        })
+
+        test("Register existing loan", async () => {
+            const result = await supertest(app)
+                    .post("/api/v1/members/loans/register")
+                    .set('Authorization', `Bearer ${value.key2}`)
+                    .send(loan2)    
+            
+            expect(result.statusCode).toBe(500)
+            expect(result.body.message).toBe(MESSAGES.LOAN.INVALID_LOAN_EXISTING)
+        })
+
+        test("Update loan", async () => {
+            const result = await supertest(app)
+                    .patch("/api/v1/members/loans/")
+                    .set('Authorization', `Bearer ${value.key2}`)
+                    .send({ loan_amt: "300000"})
+            
+            expect(result.statusCode).toBe(200)
+            expect(result.body.message).toBe(MESSAGES.LOAN.UPDATED)
+        })
+
+        test("Get my loan", async () => {
+            const result = await supertest(app)
+                    .get("/api/v1/members/loans/")
+                    .set('Authorization', `Bearer ${value.key2}`)
+            
+            expect(result.statusCode).toBe(201)
+            expect(result.body.message).toBe(MESSAGES.LOAN.FETCHED)
+        })
+
+        test("Delete pending loan", async () => {
+            const result = await supertest(app)
+                    .delete("/api/v1/members/loans/")
+                    .set('Authorization', `Bearer ${value.key2}`)
+            
+            expect(result.statusCode).toBe(200)
+            expect(result.body.message).toBe( MESSAGES.LOAN.DELETED )
+        })
+    })
+    // Delete
         test("Delete Member", async () => {
             const result = await supertest(app)
                 .delete("/api/v1/members/")
@@ -112,25 +174,4 @@ describe("Test member Functionalities", ()=> {
             expect(result.body.message).toEqual(MESSAGES.USER.DELETED)
             expect(result.body).toMatchObject({ success: true });
         })
-    })
-
-    describe("Testing Loan Routes", () =>{
-        test("Register user",async () => {
-            const result = await supertest(app)
-                    .post("/api/v1/members/register")
-                    .send(RegisterMember1)
-            
-            expect(result.statusCode).toBe(200)
-            expect(result.body.data).toMatchObject({
-                _id : expect.any(String),
-                ippis : expect.any(Number),
-                first_name: expect.any(String),
-                last_name: expect.any(String),
-                dept_unit: expect.any(String),
-                designation: expect.any(String),
-                email: expect.any(String),
-                mobile_phone: expect.any(String)
-            })
-        })
-    })
 })
