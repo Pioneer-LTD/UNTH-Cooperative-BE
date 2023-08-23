@@ -32,4 +32,4 @@ const withdrawalSchema = new mongoose.Schema({
 
  const withdrawModel = mongoose.model("Withdrawal", withdrawalSchema)
 
- module.exports = withdrawModel
+module.exports = withdrawModel
