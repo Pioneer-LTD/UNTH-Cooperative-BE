@@ -21,14 +21,14 @@ exports.isAuth = async (req, res, next) => {
             const user = await Staff.findById(decoded?._id);
       
             if (!user) {
-              next(new MESSAGES.USER.INVALID_USER_ERROR);
+              next(Error(MESSAGES.USER.INVALID_USER_ERROR));
             }
         }
         if (decoded.path == 'member') {
             const user = await Member.findById(decoded?._id);
       
             if (!user) {
-              next(new MESSAGES.USER.INVALID_USER_ERROR);
+              next(Error(MESSAGES.USER.INVALID_USER_ERROR));
             }
         }
 

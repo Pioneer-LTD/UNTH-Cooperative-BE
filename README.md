@@ -8,6 +8,8 @@ This repository contains the backend functionalities of a Cooperative Asset Mana
 - dotenv
 - Joi
 - Jsonwebtoken
+- Jest
+- SuperTest
 - Bcrypt
 - Morgan
 
@@ -45,13 +47,13 @@ This repository contains the backend functionalities of a Cooperative Asset Mana
 
 - `withdraw: `
     [ `POST`: Create a new withdrawal]  `/api/v1/staffs/withdrawal`
-    [ `GET`: get all withdrawals] `/api/v1/staffs/withdrawal`
+    [ `GET`: get all withdrawals] `/api/v1/staffs/withdrawal/all`
     [ `GET`: get a single withdrawal] `/api/v1/staffs/withdrawal/:id`
     [ `PATCH`: update a withdrawal] `/api/v1/staffs/withdrawal/:id`
     [ `DELETE`: delete a withdrawal] `/api/v1/staffs/withdrawal/:id`
 
 
-- [API Documentation](https://documenter.getpostman.com/view/29089023/2s9Xy3trb3) `/api/v1/docs` [ `GET`: get API Documentation] 
+- [API Documentation](https://documenter.getpostman.com/view/19026826/2s9Y5VSiRW) `/api/v1/docs` [ `GET`: get API Documentation] 
 ## Entity Relationship model
 To view the Entity Relationship Diagram (ERM) navigate [here](https://dbdiagram.io/d/64d0228a02bd1c4a5e53a94a)
 
