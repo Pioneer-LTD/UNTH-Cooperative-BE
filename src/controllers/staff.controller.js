@@ -1,38 +1,50 @@
 const { generateToken } = require('../utils/jwt.util');
 const services = require('../services/staff.service');
-const { MAXAGE } = require('../configs/constants.config');
+const { MAXAGE, MESSAGES } = require('../configs/constants.config');
 
 //create a Staff
 exports.register = async (req, res, next) => {        
  try {
     const newStaff = await services.CreateStaff({ ...req.body });    
-    res.status(201).json({ success: true, message: 'Staff created Successfully', data: newStaff })
+    res.status(201).json({ 
+      success: true, 
+      message: MESSAGES.USER.CREATED, 
+      data: newStaff 
+    })
 } catch (error) {
- next(error)
- }
+    next(error) }
+}
+
+exports.login = async (req, res, next) => {
+  try {
+    const { _id } = await services.Login(req.body);
+
+    // token generation with user details
+    const token = generateToken({ _id, path: "staff" }, { expiresIn: MAXAGE });
+
+    res.status(201).json({ 
+      success: true, 
+      message: MESSAGES.USER.LOGGEDIN, 
+      Token: token
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+//Get a Single by Id
+exports.findStaff = async (req, res, next) => {
+  try {
+    const Staff = await services.fetchById({ _id: req.params.id })
+    if(!Staff) {  
+      return res.status(404).json({success: false, message: 'Staff not found'})
     }
 
-    exports.login = async (req, res, next) => {
-        try {
-          const { _id } = await services.Login(req.body);
-          const token = generateToken({ _id, path: "staff" }, { expiresIn: '5d' });
-          res.json({ success: true, message: 'Login Successful', Token: token});
-        } catch (error) {
-             next(error);
-        }
-      };
-
-    //Get a Single by Id
-    exports.findStaff = async (req, res, next) => {
-        try {
-     const Staff = await services.fetchById({ _id: req.params.id })
-     if(!Staff)
-     {  return res.status(404).json({success: false, message: 'Staff not found'})}
-         return res.status(200).json({success: true,message: Staff})    
-        } catch (error) {
-          next(error)
-        }
-    }
+    return res.status(200).json({success: true, message: MESSAGES.USER.FETCHED, data : Staff})    
+  } catch (error) {
+    next(error)
+  }
+}
 
     //Get All Staffs
     exports.findAllStaff = async (req, res, next) => {

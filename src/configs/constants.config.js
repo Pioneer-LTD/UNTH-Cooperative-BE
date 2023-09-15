@@ -39,6 +39,7 @@ module.exports = {
             DELETED: "User deleted successfully",
             DUPLICATE_ERROR: "User already exists",
             DUPLICATE_EMAIL: "Email already exists",
+            DUPLICATE_NAME: "Name already exists",
             INVALID_ID_ERROR: "Id doesn't exist",
             INVALID_USER_ERROR: "User doesn't exist",
             INVALID_OBJID_ERROR: "Id is not a valid objectId",

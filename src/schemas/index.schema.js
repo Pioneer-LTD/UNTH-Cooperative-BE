@@ -44,6 +44,7 @@ exports.staffUpdate = joi.object().keys({
   fullname: joi.string().max(54).required(),
   email: joi.string().email().required(),
   experience: joi.string().required(),
+  // password: joi.string().min(8).max(30).required(),
 })
 
 exports.withdrawalRegister = joi.object().keys({

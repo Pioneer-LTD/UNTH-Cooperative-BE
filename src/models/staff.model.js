@@ -31,16 +31,15 @@ const staffSchema = new mongoose.Schema({
 //Document middleware for encrpting password
 staffSchema.pre('save', async function (next) {
 	if (!this.isModified('password')) {
-	  next();
+		next();
 	}
-  
 	const salt = await bcrypt.genSalt(10);
 	this.password = await bcrypt.hash(this.password, salt);
-  });
+});
   
-  staffSchema.methods.matchPassword = async function (password) {
+staffSchema.methods.matchPassword = async function (password) {
 	return await bcrypt.compare(password, this.password);
-  };
+};
 
   const staffModel = mongoose.model("Staff", staffSchema);
 
