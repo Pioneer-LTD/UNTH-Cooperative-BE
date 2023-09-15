@@ -5,11 +5,11 @@ exports.createWithdrawal = async(input) => {
 }
 
 //Edit a withdraw
-exports.updateWithdraw = async (id, input) => {
+exports.updateWithdrawal = async (id, input) => {
     return await withdrawModel.findByIdAndUpdate(id, input, {new : true})
 }
 //Delete a withdraw
-exports.deleteWithdraw = async(id) => {
+exports.deleteWithdrawal = async(id) => {
     return await withdrawModel.findByIdAndDelete(id)
 }
 //Get a single withdrawal

@@ -30,22 +30,29 @@ exports.loanUpdate = joi.object().keys({
 
 exports.staffSchema = joi.object().keys({
   fullname: joi.string().max(54).required(),
+  email: joi.string().email().required(),
   experience: joi.string().required(),
   password: joi.string().min(8).max(30).required(),
 })
 
 exports.loginStaff = joi.object().keys({
-  fullname: joi.string().max(54).required(),
+  email: joi.string().email().required(),
   password: joi.string().min(8).max(30).required(),
 })
 
 exports.staffUpdate = joi.object().keys({
   fullname: joi.string().max(54).required(),
+  email: joi.string().email().required(),
   experience: joi.string().required(),
   // password: joi.string().min(8).max(30).required(),
 })
 
 exports.withdrawalRegister = joi.object().keys({
+  member_id: joi.number().required(),
+  amount: joi.number().required(),
+})
+
+exports.withdrawalUpdate = joi.object().keys({
   member_id: joi.number().required(),
   amount: joi.number().required(),
 })

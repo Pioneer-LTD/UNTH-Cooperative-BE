@@ -6,6 +6,11 @@ const staffSchema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
+	email: {
+		type: String,
+		required: true,
+		unique: [true,"Email already exists"]
+	},
     role: {
 		type: String,
 	},

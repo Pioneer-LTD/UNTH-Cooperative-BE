@@ -13,23 +13,23 @@ const withdrawalSchema = new mongoose.Schema({
     },
     authorised_by: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "staffModel",
+        ref: 'staffModel',
         required: true,
         unique: [true, "StaffID already exists"]
     },
     created_by: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "staffModel",
+        ref: 'staffModel',
         required: true,
         unique: [true, "StaffID already exists"]
     },
-    created_at: {
-        type: Date,
-        required: true
-    }
 }, 
- { timestamps: true })
+{ timestamps: {
+    createdAt: true,
+    updatedAt: false
+  }}
+ )
 
-const withdrawModel = mongoose.model("Withdrawal", withdrawalSchema);
+ const withdrawModel = mongoose.model("Withdrawal", withdrawalSchema)
 
 module.exports = withdrawModel
