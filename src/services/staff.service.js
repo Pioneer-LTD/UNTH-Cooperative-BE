@@ -6,7 +6,7 @@ exports.CreateStaff = async (input) => {
   const { fullname } = input;
   const staff = await Staff.findOne({ fullname });
   if (staff) {
-    throw new MESSAGES.USER.DUPLICATE_EMAIL;
+    throw new MESSAGES.USER.DUPLICATE_NAME;
   }
   return await Staff.create(input);
  };

@@ -41,4 +41,27 @@ module.exports ={
         "monthly_savings": "30000",
         "total_interest": "33405"
     },
+    staffSchema: {
+        fullname: "Okafor Ifeanyi",
+        experience: "5 years",
+        password: "kelvin"
+    },
+    staffSchema2: {
+        fullname: "Okafor Ifeanyi",
+        experience: "5 years",
+        password: "kelvin"
+    },
+    loginStaff: {
+        fullname: "Okafor Ifeanyi",
+        password: "kelvin"
+    },
+    loginStaff_wrong: {
+        fullname: "Okafor Ifeanyi",
+        password: "kelvin1"
+    },
+    staffUpdate: {
+        fullname: "Okafor Ifeanyi",
+        experience: "7 years",
+        password: "kelvin"
+    }
 }

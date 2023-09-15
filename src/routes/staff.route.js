@@ -14,12 +14,15 @@ const { staffSchema,
         
 const router = Router();
 
+
 router.post('/register', validate(staffSchema), register)
 router.post('/login', validate(loginStaff), login)
 router.get('/:id', findStaff)
 router.patch('/:id', validate(staffUpdate), isAuth, updateStaff)
 router.get('/', findAllStaff)
 router.delete('/:id', isAuth, deleteStaff)
+
+
 
 module.exports = router; 
 
