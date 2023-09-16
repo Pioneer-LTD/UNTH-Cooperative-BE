@@ -23,6 +23,8 @@ exports.isAuth = async (req, res, next) => {
             if (!user) {
               next(Error(MESSAGES.USER.INVALID_USER_ERROR));
             }
+           
+            req.user = user
         }
         if (decoded.path == 'member') {
             const user = await Member.findById(decoded?._id);
@@ -30,11 +32,11 @@ exports.isAuth = async (req, res, next) => {
             if (!user) {
               next(Error(MESSAGES.USER.INVALID_USER_ERROR));
             }
+            req.user = user
         }
 
-        req.user = { _id : decoded?._id};
+        // req.user = { _id : decoded?._id};
         req.path = { path : decoded?.path};
-        if (decoded?.ippis) { req.ippis = decoded?.ippis; }
         
         next();
     } catch (error) {

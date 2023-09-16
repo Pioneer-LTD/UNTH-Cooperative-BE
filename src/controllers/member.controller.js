@@ -74,7 +74,7 @@ exports.updateMember = async (req, res) => {
         break;
 
       default:
-        ippis= req.ippis
+        ippis= req.user.ippis
         break;
     }
     const user = await memberService.findMemberByIppis(ippis)
@@ -110,7 +110,7 @@ exports.deleteMember = async (req, res) => {
         break;
 
       default:
-        ippis= req.ippis
+        ippis= req.user.ippis
         break;
     }
     try {
@@ -149,7 +149,7 @@ exports.getMemberByIppis = async (req, res) => {
 
 // Fetch my profile
 exports.getMyProfile = async (req, res) => {
-  const ippis = req.ippis;
+  const ippis = req.user.ippis;
   try {
     // Check if the book to delete is the database
     const existingMember = await memberService.findMemberByIppis(ippis)
