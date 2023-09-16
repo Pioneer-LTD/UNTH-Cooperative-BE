@@ -27,7 +27,7 @@ describe("Test staff Functionalities", ()=> {
             const result = await supertest(app)
                     .post("/api/v1/staffs/register")
                     .send(staffSchema)
-            
+            console.log(result.body)
             expect(result.statusCode).toBe(201)
             expect(result.body.data).toMatchObject({
                 _id : expect.any(String),
@@ -41,8 +41,8 @@ describe("Test staff Functionalities", ()=> {
             const result = await supertest(app)
                     .post("/api/v1/staffs/register")
                     .send(staffSchema)
-            
-            expect(result.statusCode).toBe(400)
+            console.log(result.body)
+            expect(result.statusCode).toBe(422)
             expect(result.body.message).toBe(MESSAGES.USER.DUPLICATE_NAME)
         })
 
@@ -52,7 +52,7 @@ describe("Test staff Functionalities", ()=> {
                 .post("/api/v1/staffs/login")
                 .send({ fullname: "BIO BIO", password: "569484" })
 
-            expect(result.statusCode).toBe(400)
+            expect(result.statusCode).toBe(422)
             expect(result.body.message).toEqual(MESSAGES.USER.INVALID_USER_ERROR)
         })
 
@@ -62,14 +62,14 @@ describe("Test staff Functionalities", ()=> {
                 .post("/api/v1/staffs/login")
                 .send(loginStaff_wrong)
 
-            expect(result.statusCode).toBe(400)
+            expect(result.statusCode).toBe(422)
             expect(result.body.message).toEqual(MESSAGES.USER.INVALID_PASSWORD_ERROR)
         })
 
         test("Login user",async () => {
             const result = await supertest(app)
                     .post("/api/v1/staffs/login")
-                    .send(loginMember1)
+                    .send(loginStaff)
 
             value.key1 = result.body.Member_id
             value.key2 = result.body.Token
@@ -87,16 +87,16 @@ describe("Test staff Functionalities", ()=> {
                 .set('Authorization', `Bearer ${value.key2}`)
 
                 // console.info(result.body)
-            expect(result.statusCode).toBe(201)
-            expect(result.body.message).toEqual(MESSAGES.USER.FETCHED)
+            expect(result.statusCode).toBe(200)
+            expect(result.body.message).toEqual(MESSAGES.USER.FETCHE)
             expect(result.body).toMatchObject({ success: true });
         })
 
         // Update
         test("Update Member", async () => {
             const result = await supertest(app)
-                .patch("/api/v1/members/")
-                .send({ married: true, level: "5", state_of_origin: "Anambra", LGA: "Njikoka" })
+                .patch("/api/v1/staffs/")
+                .send(staffUpdate)
                 .set('Authorization', `Bearer ${value.key2}`)
 
             expect(result.statusCode).toBe(200)

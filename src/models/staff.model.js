@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt')
 const mongoose = require("mongoose");
+const { ENUM } = require('../configs/constants.config');
 
 const staffSchema = new mongoose.Schema({
     fullname: {
@@ -13,10 +14,12 @@ const staffSchema = new mongoose.Schema({
 	},
     role: {
 		type: String,
+		enum: ENUM.ROLE,
+		required: true,
+		default: ENUM.ROLE[0]
 	},
     experience: {
 		type: String,
-		required: true
 	},
     password: {
 		type: String,

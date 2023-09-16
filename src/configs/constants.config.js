@@ -16,6 +16,7 @@ module.exports = {
         TITLE: ["Mr.", "Mrs.", "Ms.", "Miss"],
         STATUS: ["Pending", "Rejected", "Completed", "Active"],
         LOAN: ["Personal", "Mortgage", "Rent"],
+        ROLE: ["Welfare", "DFA", "Chief Of Welfare", "Super Admin"]
     },
     DATABASES: {
         USER: "user",

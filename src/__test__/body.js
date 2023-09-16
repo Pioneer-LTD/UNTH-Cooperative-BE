@@ -43,25 +43,26 @@ module.exports ={
     },
     staffSchema: {
         fullname: "Okafor Ifeanyi",
+        email: "oluchii@gmail.com",
         experience: "5 years",
-        password: "kelvin"
+        password: "kelvin-chii"
     },
     staffSchema2: {
         fullname: "Okafor Ifeanyi",
         experience: "5 years",
-        password: "kelvin"
+        password: "kelvin-chii"
     },
     loginStaff: {
-        fullname: "Okafor Ifeanyi",
-        password: "kelvin"
+        email: "oluchii@gmail.com",
+        password: "kelvin-chii"
     },
     loginStaff_wrong: {
-        fullname: "Okafor Ifeanyi",
-        password: "kelvin1"
+        email: "oluchii@gmail.com",
+        password: "kelvin1-chii"
     },
     staffUpdate: {
         fullname: "Okafor Ifeanyi",
+        email: "oluchii@gmail.com",
         experience: "7 years",
-        password: "kelvin"
     }
 }

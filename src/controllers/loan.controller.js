@@ -15,7 +15,7 @@ exports.register = async (req, res) => {
             
             // Set member ID to logged in user
             default: 
-                member_ippis = req.ippis
+                member_ippis = req.user.ippis
         }
         
         // If there is any existing loan "Pending" throw an error
@@ -52,7 +52,7 @@ exports.updateLoan = async (req, res) => {
             
             // Set member ID to logged in user
             default: 
-                member_ippis = req.ippis
+                member_ippis = req.user.ippis
         }
         
         // Gets the existing Loan, The query below gets the pending loan of the user ippis 
@@ -90,7 +90,7 @@ exports.deleteLoan = async (req, res) => {
             
             // Set member ID to logged in user
             default: 
-                member_ippis = req.ippis
+                member_ippis = req.user.ippis
         }
         
         // Gets the existing Loan, The query below gets the pending loan of the user ippis 
@@ -115,7 +115,7 @@ exports.getMemberLoans = async (req, res) => {
         case "staff":
             member_ippis = req.params.ippis;
         default: 
-            member_ippis = req.ippis
+            member_ippis = req.user.ippis
     }
 
     try {
