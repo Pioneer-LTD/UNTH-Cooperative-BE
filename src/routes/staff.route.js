@@ -10,7 +10,7 @@ const router = Router();
 router.post('/register', validate(staffSchema), register)
 router.post('/login', validate(loginStaff), login)
 router.patch('/:id', validate(staffUpdate), isAuth, updateStaff)
-router.delete('/:id', isAuth, deleteStaff)
+router.delete('/', isAuth, deleteStaff)
 router.get('/', isAuth, getMyProfile)
 router.get('/all/', findAllStaff)
 router.get('/:id', findStaff)

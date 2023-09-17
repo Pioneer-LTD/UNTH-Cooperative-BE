@@ -136,29 +136,38 @@ exports.updateStaff = async (req, res, next) => {
       data: updatedData
     })
   } catch (error) {
-    next(error)
+      return res.status(500).json({
+        success: false, 
+        message: error.message 
+      })
   }
 }
 
 exports.deleteStaff = async (req, res, next) =>{
-  const _id = req.params._id
+  const _id = req.user._id.toString()
+
   try {
     //check if Staff exits before updating
-    const checkStaff = await services.fetchById({ _id })
-    
+    const checkStaff = await services.fetchOne({ _id })
+
     if(!checkStaff) {
       return res.status(404).json({ 
-        success: false, message: 'Staff not found'
+        success: false, message: MESSAGES.USER.INVALID_USER_ERROR
       })
     }
     
     //delete Staff 
-    await services.deleteStaff(req.params.id)
+    await services.deleteStaff(_id)
     return res.status(200).json({
       success: true,
-      message: 'Staff Deleted Successfully', 
+      message: MESSAGES.USER.DELETED, 
       data: checkStaff
     })
   }
-  catch (error) {next(error);}
+  catch (error) {
+    return res.status(500).json({
+      success: false, 
+      message: error.message 
+    })
+  }
 }

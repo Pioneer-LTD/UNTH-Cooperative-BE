@@ -6,7 +6,7 @@ exports.CreateStaff = async (input) => {
   const { email } = input;
   const staff = await Staff.findOne({ email });
   if (staff) {
-    throw new MESSAGES.USER.DUPLICATE_NAME;
+    throw new Error(MESSAGES.USER.DUPLICATE_NAME)
   }
   return await Staff.create(input);
  };
@@ -16,11 +16,11 @@ exports.CreateStaff = async (input) => {
     const { email, password } = input;
     const user = await Staff.findOne({ email });
     if (!user) {
-      throw Error(MESSAGES.USER.INVALID_USER_ERROR);
+      throw new Error(MESSAGES.USER.INVALID_USER_ERROR);
     }
     const isMatch = await user.matchPassword(password)
     if (!isMatch) {
-      throw Error(MESSAGES.USER.INVALID_PASSWORD_ERROR);
+      throw new Error(MESSAGES.USER.INVALID_PASSWORD_ERROR);
     }
     return user;
   };
