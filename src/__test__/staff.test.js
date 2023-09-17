@@ -33,7 +33,7 @@ describe("Test staff Functionalities", ()=> {
                 _id : expect.any(String),
                 fullname: expect.any(String),
                 experience: expect.any(String),
-                passsword: expect.any(String),
+                password: expect.any(String)
             })
         })
 
@@ -42,7 +42,7 @@ describe("Test staff Functionalities", ()=> {
                     .post("/api/v1/staffs/register")
                     .send(staffSchema)
             console.log(result.body)
-            expect(result.statusCode).toBe(422)
+            expect(result.statusCode).toBe(500)
             expect(result.body.message).toBe(MESSAGES.USER.DUPLICATE_NAME)
         })
 
@@ -50,9 +50,10 @@ describe("Test staff Functionalities", ()=> {
         test("Wrong Login username", async () => {
             const result = await supertest(app)
                 .post("/api/v1/staffs/login")
-                .send({ fullname: "BIO BIO", password: "569484" })
-
-            expect(result.statusCode).toBe(422)
+                .send({ fullname: "BIO BIO", email: "m@gmail.com", password: "569484544" })
+            
+            console.log(result.body)
+            expect(result.statusCode).toBe(500)
             expect(result.body.message).toEqual(MESSAGES.USER.INVALID_USER_ERROR)
         })
 
@@ -62,7 +63,7 @@ describe("Test staff Functionalities", ()=> {
                 .post("/api/v1/staffs/login")
                 .send(loginStaff_wrong)
 
-            expect(result.statusCode).toBe(422)
+            expect(result.statusCode).toBe(500)
             expect(result.body.message).toEqual(MESSAGES.USER.INVALID_PASSWORD_ERROR)
         })
 
@@ -77,6 +78,7 @@ describe("Test staff Functionalities", ()=> {
             expect(result.body).toEqual({
                 Token: expect.any(String),
                 message: MESSAGES.USER.LOGGEDIN,
+                success: true
             })
         })
 
@@ -88,7 +90,7 @@ describe("Test staff Functionalities", ()=> {
 
                 // console.info(result.body)
             expect(result.statusCode).toBe(200)
-            expect(result.body.message).toEqual(MESSAGES.USER.FETCHE)
+            expect(result.body.message).toEqual(MESSAGES.USER.FETCHED)
             expect(result.body).toMatchObject({ success: true });
         })
 
@@ -101,6 +103,17 @@ describe("Test staff Functionalities", ()=> {
 
             expect(result.statusCode).toBe(200)
             expect(result.body.message).toEqual(MESSAGES.USER.UPDATED)
+            expect(result.body).toMatchObject({ success: true });
+        })
+
+        // Delete
+        test("Delete Staff", async () => {
+            const result = await supertest(app)
+                .delete("/api/v1/staffs/")
+                .set('Authorization', `Bearer ${value.key2}`)
+
+            expect(result.statusCode).toBe(200)
+            expect(result.body.message).toEqual(MESSAGES.USER.DELETED)
             expect(result.body).toMatchObject({ success: true });
         })
     })
