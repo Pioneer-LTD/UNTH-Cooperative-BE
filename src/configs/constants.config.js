@@ -59,6 +59,10 @@ module.exports = {
         },
         TRANSACTION: {
             DCREATED: "Deposit created successfully",
+            NOTFOUND: "NOT FOUND, INVALID TRANSACTION",
+            DUPLICATE_ERROR : "Duplicate Found",
+            UPDATED: "Update Successful",
+            DELETED: "Delete Successful",
             WCREATED: "Withdrawal created successfully",
             DFETCHED: "Deposits fetched successfully",
             WFETCHED: "Withdrawals fetched successfully",

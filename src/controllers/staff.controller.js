@@ -24,7 +24,8 @@ exports.login = async (req, res, next) => {
 
     res.status(201).json({ 
       success: true, 
-      message: MESSAGES.USER.LOGGEDIN, 
+      message: MESSAGES.USER.LOGGEDIN,
+      Token_Type: "Bearer",
       Token: token
     });
 
@@ -111,7 +112,7 @@ exports.updateStaff = async (req, res, next) => {
     //check Staff
     if (!Staff) {
       res.status(403).json({
-        success: false, message: 'Staff to update not found' 
+        success: false, message: MESSAGES.USER.INVALID_USER_ERROR 
       })
     } 
 
@@ -123,7 +124,7 @@ exports.updateStaff = async (req, res, next) => {
       if(StaffUpdate._id.toString() !== id){
         res.status(403).json({ 
           success: false, 
-          message: 'Staff already exists'
+          message: MESSAGES.USER.DUPLICATE_ERROR
         })}
       }
     }
@@ -132,7 +133,7 @@ exports.updateStaff = async (req, res, next) => {
     
     return res.status(200).json({ 
       success: true, 
-      message: 'Staff updated successfully', 
+      message: MESSAGES.USER.UPDATED, 
       data: updatedData
     })
   } catch (error) {
