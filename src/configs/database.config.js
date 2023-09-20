@@ -3,9 +3,9 @@ const { DATABASE_URI, MESSAGES } = require('./constants.config');
 require('dotenv').config()
 
 
-async function connect () {
+async function connect (db) {
     // Database Connection 
-    await mongoose.connect(DATABASE_URI, {
+    await mongoose.connect(db, {
         useNewUrlParser: true, 
         useUnifiedTopology: true,
         family: 4,
@@ -18,4 +18,8 @@ async function connect () {
     })
 }
 
-module.exports = connect
+async function closeConnection () {
+    await mongoose.connection.close()
+}
+
+module.exports = { connect, closeConnection }
