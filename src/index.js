@@ -1,7 +1,7 @@
 const createServer = require("./configs/server.config")
-const connect = require("./configs/database.config")
+const { connect } = require("./configs/database.config")
 const { logger } = require("./middlewares/error.middleware");
-const { PORT } = require("./configs/constants.config")
+const { PORT, DATABASE_URI } = require("./configs/constants.config")
 
 const app = createServer()
 
@@ -9,5 +9,5 @@ const app = createServer()
 app.listen(PORT, async () => {
     logger.info(`Server is listening on port ${PORT}`)
 
-    await connect()
+    await connect(DATABASE_URI);
 })

@@ -25,7 +25,8 @@ exports.login = async (req, res, next) => {
     res.status(201).json({ 
       success: true, 
       message: MESSAGES.USER.LOGGEDIN, 
-      Token: token
+      Token: token,
+      staff_id: _id
     });
 
   } catch (error) {
@@ -104,35 +105,34 @@ exports.findAllStaff = async (req, res, next) => {
 //Update Staff
 exports.updateStaff = async (req, res, next) => {
   const updateData = req.body;
-
   try { 
-    const Staff = await services.fetchOne(req.user._id.toString());
-
+    const Staff = await services.fetchOne(req.user._id);
+    
     //check Staff
     if (!Staff) {
       res.status(403).json({
-        success: false, message: 'Staff to update not found' 
+        success: false, message: MESSAGES.USER.INVALID_USER_ERROR 
       })
     } 
 
     //check for existing Staff 
     if(updateData.email){
-    const StaffUpdate = await services.fetchOne({ email: updateData.email.toLowerCase()})
+    const StaffUpdate = await services.fetchOne({ email: updateData.email})
     
     if(StaffUpdate){
-      if(StaffUpdate._id.toString() !== id){
+      if(StaffUpdate._id.toString() !== req.params.id){
         res.status(403).json({ 
           success: false, 
-          message: 'Staff already exists'
+          message: MESSAGES.USER.DUPLICATE_EMAIL
         })}
       }
     }
     //update Staff
-    const updatedData = await services.updateStaff(req.params.id, updateData)
+    const updatedData = await services.updateStaff( req.params.id, updateData)
     
     return res.status(200).json({ 
       success: true, 
-      message: 'Staff updated successfully', 
+      message: MESSAGES.USER.UPDATED, 
       data: updatedData
     })
   } catch (error) {

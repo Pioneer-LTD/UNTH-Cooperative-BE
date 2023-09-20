@@ -1,20 +1,20 @@
 const supertest = require("supertest")
 const createServer = require("../configs/server.config")
-const { connect, closeConnection } = require("./connect")
+const { connect, closeConnection } = require("../configs/database.config")
 
 const app = createServer();
 const value = {}
 
 const { staffSchema, loginStaff, staffUpdate, loginStaff_wrong} = require("./body");
-const { MESSAGES } = require("../configs/constants.config");
+const { MESSAGES, DATABASE_URI_TEST } = require("../configs/constants.config");
 
-/* Closing database connection after each test. */
+/* Opening database connection before all test. */
 beforeAll(async () => {
     jest.setTimeout(30000);
-    await connect();
+    await connect(DATABASE_URI_TEST);
 })
 
-/* Closing database connection after each test. */
+/* Closing database connection after all test. */
 afterAll(async() =>{
     jest.setTimeout(30000);
     await closeConnection();
@@ -23,11 +23,10 @@ afterAll(async() =>{
 describe("Test staff Functionalities", ()=> {
     describe("Testing Staff Routes", () =>{
         // Register
-        test("Register user",async () => {
+        it("Register user",async () => {
             const result = await supertest(app)
                     .post("/api/v1/staffs/register")
                     .send(staffSchema)
-            console.log(result.body)
             expect(result.statusCode).toBe(201)
             expect(result.body.data).toMatchObject({
                 _id : expect.any(String),
@@ -41,7 +40,6 @@ describe("Test staff Functionalities", ()=> {
             const result = await supertest(app)
                     .post("/api/v1/staffs/register")
                     .send(staffSchema)
-            console.log(result.body)
             expect(result.statusCode).toBe(500)
             expect(result.body.message).toBe(MESSAGES.USER.DUPLICATE_NAME)
         })
@@ -52,7 +50,6 @@ describe("Test staff Functionalities", ()=> {
                 .post("/api/v1/staffs/login")
                 .send({ fullname: "BIO BIO", email: "m@gmail.com", password: "569484544" })
             
-            console.log(result.body)
             expect(result.statusCode).toBe(500)
             expect(result.body.message).toEqual(MESSAGES.USER.INVALID_USER_ERROR)
         })
@@ -72,14 +69,15 @@ describe("Test staff Functionalities", ()=> {
                     .post("/api/v1/staffs/login")
                     .send(loginStaff)
 
-            value.key1 = result.body.Member_id
+            value.key1 = result.body.staff_id
             value.key2 = result.body.Token
             expect(result.statusCode).toBe(201)
             expect(result.body).toEqual({
                 Token: expect.any(String),
                 message: MESSAGES.USER.LOGGEDIN,
-                success: true
-            })
+                success: true,
+                staff_id: expect.any(String)
+           })
         })
 
         // Get Profile
@@ -97,7 +95,7 @@ describe("Test staff Functionalities", ()=> {
         // Update
         test("Update Member", async () => {
             const result = await supertest(app)
-                .patch("/api/v1/staffs/")
+                .patch(`/api/v1/staffs/${value.key1}`)
                 .send(staffUpdate)
                 .set('Authorization', `Bearer ${value.key2}`)
 
@@ -116,5 +114,9 @@ describe("Test staff Functionalities", ()=> {
             expect(result.body.message).toEqual(MESSAGES.USER.DELETED)
             expect(result.body).toMatchObject({ success: true });
         })
+    })
+
+    describe("Testing Staff Schema", () =>{
+
     })
 })

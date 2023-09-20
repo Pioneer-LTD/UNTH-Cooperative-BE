@@ -1,6 +1,6 @@
 const supertest = require("supertest")
 const createServer = require("../configs/server.config")
-const { connect, closeConnection } = require("./connect")
+const { connect, closeConnection } = require("../configs/database.config")
 
 const app = createServer();
 const value = {}
@@ -11,12 +11,12 @@ const { RegisterMember1,
     loginMember2, 
     loan1,
     loan2 } = require("./body");
-const { MESSAGES } = require("../configs/constants.config");
+const { MESSAGES, DATABASE_URI_TEST } = require("../configs/constants.config");
 
 /* Closing database connection after each test. */
 beforeAll(async () => {
     jest.setTimeout(30000);
-    await connect();
+    await connect(DATABASE_URI_TEST);
 })
 
 /* Closing database connection after each test. */

@@ -41,9 +41,9 @@ exports.loginStaff = joi.object().keys({
 })
 
 exports.staffUpdate = joi.object().keys({
-  fullname: joi.string().max(54).required(),
-  email: joi.string().email().required(),
-  experience: joi.string().required(),
+  fullname: joi.string().max(54),
+  email: joi.string().email(),
+  experience: joi.string(),
   // password: joi.string().min(8).max(30).required(),
 })
 
