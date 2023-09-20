@@ -1,0 +1,55 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: MongoDB Tests
+
+on:
+  # push:
+  #   branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main", "develop"  ]
+
+jobs:
+  test:
+    environment:
+      name: unth_coop
+    env:
+      PORT: ${{secrets.PORT}}
+      DATABASE_URI: ${{secrets.DATABASE_URI}}
+      JWT_SECRET: ${{secrets.JWT_SECRET}}
+  
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+
+    steps:
+      - name: Set up MongoDB Server
+        run: docker run -d -p 27017:27017 --name mongodb mongo:latest
+
+      - name: Set MongoDB Connection String
+        run: echo "DATABASE_URI_TEST=mongodb://localhost:27017/unth_coop_test" >> $GITHUB_ENV
+
+      - name: Clone repository
+        uses: actions/checkout@v3
+
+      - name: Install dependencies and run tests
+        run: |
+          # Install dependencies (e.g., Node.js, npm, etc.)
+          npm install
+          
+          # Run your tests that use the MongoDB connection string
+          npm test
+          
+      - name: Check if tests passed
+        run: |
+            # Check If the the test passes then Continue 
+            if [ $? -eq 0 ]; then
+              echo "Tests passed."
+              exit 0
+            # Check if test fails then Stop Merge
+            else
+              echo "Tests failed. This pull request cannot be merged."
+              exit 1
+            fi
