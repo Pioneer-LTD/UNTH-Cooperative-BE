@@ -10,8 +10,8 @@ const { MESSAGES, DATABASE_URI_TEST } = require("../configs/constants.config");
 
 /* Opening database connection before all test. */
 beforeAll(async () => {
-    jest.setTimeout(30000);
-    await connect(DATABASE_URI_TEST);
+    jest.setTimeout( 30000 );
+    await connect( DATABASE_URI_TEST );
 })
 
 /* Closing database connection after all test. */
